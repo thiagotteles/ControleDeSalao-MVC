@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{78D27E98-E729-44DD-8D58-3B852580305D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ControleDeSalao.Application</RootNamespace>
+    <AssemblyName>ControleDeSalao.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interface\IAppServiceBase.cs" />
+    <Compile Include="Interface\IAgendaAppService.cs" />
+    <Compile Include="Interface\IEmailMarketingAppService.cs" />
+    <Compile Include="Interface\IHorarioFuncionamentoAppService.cs" />
+    <Compile Include="Interface\IPlanoAppService.cs" />
+    <Compile Include="Interface\IMensalidadeAppService.cs" />
+    <Compile Include="Interface\IComandaAppService.cs" />
+    <Compile Include="Interface\IComandaPagamentoAppService.cs" />
+    <Compile Include="Interface\IComandaPagamentoParcelaAppService.cs" />
+    <Compile Include="Interface\ICompraPagamentoParcelaAppService.cs" />
+    <Compile Include="Interface\ICompraPagamentoAppService.cs" />
+    <Compile Include="Interface\ICompraDetalheAppService.cs" />
+    <Compile Include="Interface\ICompraAppService.cs" />
+    <Compile Include="Interface\IFornecedorAppService.cs" />
+    <Compile Include="Interface\IProdutoAppService.cs" />
+    <Compile Include="Interface\IProdutoComandaAppService.cs" />
+    <Compile Include="Interface\IServicoComandaAppService.cs" />
+    <Compile Include="Interface\IServicoPreCadastradoAppService.cs" />
+    <Compile Include="Interface\IComissaoPersonalizadaAppService.cs" />
+    <Compile Include="Interface\IServicoAppService.cs" />
+    <Compile Include="Interface\IComissaoAppService.cs" />
+    <Compile Include="Interface\ICategoriaAppService.cs" />
+    <Compile Include="Interface\IFinanceiroAppService.cs" />
+    <Compile Include="Interface\IProfissionalCategoriaAppService.cs" />
+    <Compile Include="Interface\IDisponibilidadeAppService.cs" />
+    <Compile Include="Interface\IProfissionalAppService.cs" />
+    <Compile Include="Interface\IClienteAppService.cs" />
+    <Compile Include="Interface\IPlanoDeContaAppService.cs" />
+    <Compile Include="Interface\IPromocaoAppService.cs" />
+    <Compile Include="Interface\IUsuarioAppService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AppServiceBase.cs" />
+    <Compile Include="Interface\IEmpresaAppService.cs" />
+    <Compile Include="Service\AgendaAppService.cs" />
+    <Compile Include="Service\EmailMarketingAppService.cs" />
+    <Compile Include="Service\HorarioFuncionamentoAppService.cs" />
+    <Compile Include="Service\PlanoAppService.cs" />
+    <Compile Include="Service\MensalidadeAppService.cs" />
+    <Compile Include="Service\ComandaPagamentoAppService.cs" />
+    <Compile Include="Service\ComandaPagamentoParcelaAppService.cs" />
+    <Compile Include="Service\ProdutoComandaAppService.cs" />
+    <Compile Include="Service\ServicoComandaAppService.cs" />
+    <Compile Include="Service\ComandaAppService.cs" />
+    <Compile Include="Service\CompraPagamentoParcelaAppService.cs" />
+    <Compile Include="Service\CompraPagamentoAppService.cs" />
+    <Compile Include="Service\CompraDetalheAppService.cs" />
+    <Compile Include="Service\CompraAppService.cs" />
+    <Compile Include="Service\FornecedorAppService.cs" />
+    <Compile Include="Service\ProdutoAppService.cs" />
+    <Compile Include="Service\ServicoPreCadastradoAppService.cs" />
+    <Compile Include="Service\ComissaoPersonalizadaAppService.cs" />
+    <Compile Include="Service\ServicoAppService.cs" />
+    <Compile Include="Service\DisponibilidadeAppService.cs" />
+    <Compile Include="Service\ComissaoAppService.cs" />
+    <Compile Include="Service\CategoriaAppService.cs" />
+    <Compile Include="Service\FinanceiroAppService.cs" />
+    <Compile Include="Service\ProfissionalCategoriaAppService.cs" />
+    <Compile Include="Service\ProfissionalAppService.cs" />
+    <Compile Include="Service\PlanoDeContaAppService.cs" />
+    <Compile Include="Service\PromocaoAppService.cs" />
+    <Compile Include="Service\EmpresaAppService.cs" />
+    <Compile Include="Service\UsuarioAppService.cs" />
+    <Compile Include="Service\ClienteAppService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ControleDeSalao.Domain\ControleDeSalao.Domain.csproj">
+      <Project>{7c65e490-814d-4206-b135-8cdd2976a8ce}</Project>
+      <Name>ControleDeSalao.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ControleDeSalao.Infra.Cross\ControleDeSalao.Infra.Cross.csproj">
+      <Project>{F9BAA3FC-93BC-4537-B1E7-311836504DC4}</Project>
+      <Name>ControleDeSalao.Infra.Cross</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

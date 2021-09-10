@@ -1,0 +1,90 @@
+﻿@model IOrderedEnumerable<App.MVC.ViewModels.FinanceiroViewModel>
+
+@{
+    Layout = "../Shared/_LayoutImpressao.cshtml";
+
+    var saldo = (Model.Where(m => m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito).Sum(m => m.ValorPago).Value - @Model.Where(m => m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito).Sum(m => m.ValorPago).Value).ToString("C").Replace(",", ".");
+    var planos = from p in Model.Where(m => (m.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Pago)).OrderBy(m => m.Tipo)
+                 group p by p.PlanoDeContaId into g
+                 select new
+                 {
+                     Id = g.Key,
+                 };
+}
+
+@if (Model.Any())
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Fechamento do dia @Model.FirstOrDefault().DataPagamento.Value.ToString("d")</h3>
+            </td>
+        </tr>
+    </table>
+    <div class="row">
+        <div class="col-xs-8 col-md-8"></div>
+        <div class="col-xs-2 col-md-2 text-right">Entrada</div>
+        <div class="col-xs-2 col-md-2 text-right">Saída</div>
+        @foreach (var item in planos)
+        {
+            <div class="col-xs-8 col-md-8"><strong>@Model.FirstOrDefault(m => m.PlanoDeContaId == item.Id).PlanoDeConta.Nome</strong></div>
+            if (Model.FirstOrDefault(m => m.PlanoDeContaId == item.Id).PlanoDeConta.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+            {
+                <div class="col-xs-2 col-md-2 text-right"><strong>@Model.Where(m => m.PlanoDeContaId == item.Id).Sum(m => m.ValorPago).Value.ToString("C")</strong></div>
+                <div class="col-xs-2 col-md-2 text-right"><strong>--</strong></div>
+            }
+            else
+            {
+                <div class="col-xs-2 col-md-2 text-right"><strong>--</strong></div>
+                <div class="col-xs-2 col-md-2 text-right"><strong>@Model.Where(m => m.PlanoDeContaId == item.Id).Sum(m => m.ValorPago).Value.ToString("C")</strong></div>
+            }
+            foreach (var lcto in Model.Where(m => m.PlanoDeContaId == item.Id))
+            {
+                <div class="col-xs-6 col-md-6">&nbsp;&nbsp; @lcto.Descricao</div>
+                <div class="col-xs-2 col-md-2">@lcto.SFormaDePagamento</div>
+                if (lcto.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                {
+                    <div class="col-xs-2 col-md-2 text-right">@lcto.ValorPago.Value.ToString("C")</div>
+                    <div class="col-xs-2 col-md-2 text-right">--</div>
+                }
+                else
+                {
+                    <div class="col-xs-2 col-md-2 text-right">--</div>
+                    <div class="col-xs-2 col-md-2 text-right">@lcto.ValorPago.Value.ToString("C")</div>
+                }
+
+            }
+            <div class="col-xs-12 col-md-12">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <hr />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+        <div class="col-xs-4 col-md-8"></div>
+        <div class="col-xs-4 col-md-2 text-right" style="border-bottom: 1pt solid">
+            <h4>+ @Model.Where(m => m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito).Sum(m => m.ValorPago).Value.ToString("C")</h4>
+        </div>
+        <div class="col-xs-4 col-md-2 text-right" style="border-bottom: 1pt solid">
+            <h4>- @Model.Where(m => m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito).Sum(m => m.ValorPago).Value.ToString("C")</h4>
+        </div>
+
+        <div class="col-xs-8 col-md-8"></div>
+        <div class="col-xs-4 col-md-4 text-right">
+            <h3>@saldo</h3>
+        </div>
+    </div>
+}
+else
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Não existem lançamentos nesta data</h3>
+            </td>
+        </tr>
+    </table>
+}

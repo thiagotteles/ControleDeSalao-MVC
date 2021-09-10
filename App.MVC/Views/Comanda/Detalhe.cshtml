@@ -1,0 +1,283 @@
+﻿@using App.MVC.ViewModels
+@model ComandaViewModel
+
+@{
+    ViewBag.Title = "Detalhe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+@Styles.Render("~/Content/bootstrap-material-datetimepicker")
+@Scripts.Render("~/bundles/bootstrap-material-datetimepicker")
+@Styles.Render("~/Content/typeahead")
+@Scripts.Render("~/bundles/typeahead")
+@Styles.Render("~/Content/bootstrap-select") 
+@Scripts.Render("~/bundles/bootstrap-select")
+@Scripts.Render("~/bundles/Comanda-Detalhe")
+<div class="page-content">
+    @Html.HiddenFor(m => m.Id, new { @id = "Id" })
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="/Home">Home</a>
+            <i class="fa fa-home"></i>
+        </li>
+        <li>
+            <a href="/Comanda/">Comandas</a>
+            <i class="fa fa-credit-card"></i>
+        </li>
+        <li>
+            <span class="active">Detalhe da Comanda</span>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <form action="/Comanda/Salvar" method="post">
+                <div class="portlet light portlet-fit portlet-form bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class=" icon-layers font-blue-dark"></i>
+                            <span class="caption-subject font-blue-dark sbold uppercase">Detalhe da comanda</span>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" class="btn btn-circle btn-icon-only btn-default">
+                                <i class="fa fa-save"></i>
+                            </button>
+                            <a class="btn btn-circle btn-icon-only red excluir">
+                                <i class="icon-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="form-body row">
+                            <div class="col-md-5 col-xs-4">
+                                <div class="form-group form-md-line-input">
+                                    <label for="NomeCliente" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Nome do Cliente</label>
+
+                                    @Html.TextBoxFor(model => model.NomeCliente, new { @class = "form-control ", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-xs-4">
+                                <div class="form-group form-md-line-input">
+                                    <label for="NomeProfissional" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Profissional</label>
+                                    <select class="form-control" id="NomeProfissional" name="NomeProfissional" required="required">
+                                        <option></option>
+                                        @foreach (var profissional in (List<ProfissionalViewModel>)Session["TodosProfissionais"])
+                                        {
+                                            <option @(Model.ProfissionalId == profissional.Id ? "selected" : "")>@profissional.Nome</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-xs-4">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <label for="SData" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Data</label>
+                                    @Html.TextBoxFor(model => model.SData, new { @class = "form-control floating-label", @required = "required" })
+
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-12" style="margin-top: 20px">
+                                <a class="btn blue btnModal" style="cursor: pointer" data-toggle="modal" href="#modalServico">
+                                    <i class="fa fa-plus"></i>
+                                    Incluir um serviço na comanda
+                                </a>
+                            </div>
+                            <br />
+                            <div class="col-md-12 col-xs-12">
+                                @if (Model.Servicos.Count > 0)
+                                {
+                                    <br />
+                                    <table class="table table-hover table-borderless table-striped">
+                                        <tr>
+                                            <th class="col-xs-7 col-md-7">@Html.Label("Serviços")</th>
+                                            <th class="col-xs-3 col-md-3 text-right">@Html.Label("Valor")</th>
+                                            <th class="col-xs-2 col-md-2"></th>
+                                        </tr>
+                                        @for (int i = 0; i < Model.Servicos.Count; i++)
+                                        {
+                                            <tr>
+                                                <td class="col-xs-6 col-md-6">
+                                                    @Html.DisplayFor(m => Model.Servicos[i].Servico.Descricao)
+                                                </td>
+                                                <td class="col-xs-3 col-md-3 text-right">
+                                                    @Html.DisplayFor(m => Model.Servicos[i].Valor)
+                                                </td>
+                                                <td class="col-xs-3 col-md-3 text-right" style="padding-top: 5px">
+                                                    @Ajax.ActionLink("Excluir", "DelServico", "Comanda", new { id = Model.Servicos[i].Id }, new AjaxOptions { HttpMethod = "POST" }, new { @class = "btn btn-danger btn-xs excluirServProd" })
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr style="border-top: solid 2pt">
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <h5 style="color: black; font-weight: bold" class="fadeInDown">Total:@Model.Servicos.Sum(m => m.Valor)</h5>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                            <div class="col-xs-12 col-md-12" style="margin-top: 20px">
+                                <label>&nbsp;</label>
+                                <br />
+                                <a class="btn blue-madison btnModal" style="cursor: pointer" data-toggle="modal" href="#modalProduto">
+                                    <i class="fa fa-plus"></i>
+                                    Incluir um produto na comanda
+                                </a>
+                            </div>
+                            <br />
+                            <div class="col-md-12 col-xs-12">
+                                @if (Model.Produtos.Count > 0)
+                                {
+                                    <br />
+                                    <table class="table table-hover table-borderless table-striped">
+                                        <tr>
+                                            <th class="col-xs-4 col-md-4">@Html.Label("Produtos")</th>
+                                            <th class="col-xs-2 col-md-2 text-center">@Html.Label("Quantidade")</th>
+                                            <th class="col-xs-2 col-md-2 text-right">@Html.Label("Valor Unitário")</th>
+                                            <th class="col-xs-2 col-md-2 text-right">@Html.Label("Valor Total")</th>
+                                            <th class="col-xs-2 col-md-2 text-right"></th>
+                                        </tr>
+                                        @for (int i = 0; i < Model.Produtos.Count; i++)
+                                        {
+                                            <tr>
+                                                <td class="col-xs-4 col-md-4">
+                                                    @Html.DisplayFor(m => Model.Produtos[i].Produto.Descricao)
+                                                </td>
+                                                <td align="right"  class="col-xs-2 col-md-2 text-center">
+                                                    <table style="border: none" align="center">
+                                                        <tr style="border: none">
+                                                            <td>
+                                                                @Html.DisplayFor(m => Model.Produtos[i].Quantidade)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(m => Model.Produtos[i].Produto.Unidade)
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                </td>
+                                                <td class="col-xs-2 col-md-2 text-right">
+                                                    @Html.DisplayFor(m => Model.Produtos[i].ValorProduto)
+                                                </td>
+                                                <td class="col-xs-2 col-md-2 text-right">
+                                                    @Html.DisplayFor(m => Model.Produtos[i].ValorTotal)
+                                                </td>
+                                                <td class="col-xs-2 col-md-2 text-right" style="padding-top: 5px">
+                                                    @Ajax.ActionLink("Excluir", "DelProduto", "Comanda", new { index = Model.Produtos[i].Index, id = Model.Produtos[i].Id }, new AjaxOptions { HttpMethod = "POST" }, new { @class = "btn btn-danger btn-xs excluirServProd" })
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr style="border-top: solid 2pt">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <h5 style="color: black; font-weight: bold" class="fadeInDown">Total:@Model.Produtos.Sum(m => m.ValorTotal)</h5>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="col-md-3 col-xs-3">
+                                    <div class="form-group form-md-line-input">
+                                        <div class="input-icon left">
+                                            <br />
+                                            <a class="btn yellow-lemon btnModal" style="cursor: pointer" data-toggle="modal" href="#modalFaturar" id="btnReceber">
+                                                <i class="fa fa-dollar"></i>
+                                                Receber
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-3">
+                                    <div class="form-group form-md-line-input">
+                                        <div class="input-icon left">
+                                            <strong style="font: 'Open Sans', sans-serif 14px; color: #9c9999">SUBTOTAL</strong>
+                                            <input type="text" disabled="disabled" id="subtotal" class="form-control" value="@(Model.Produtos.Sum(m=>m.ValorTotal) + Model.Servicos.Sum(m=>m.Valor))" style="font: 20px bold" />
+                                            <i>R$</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-3">
+                                    <div class="form-group form-md-line-input">
+                                        <div class="input-icon left">
+                                            <strong style="font: 'Open Sans', sans-serif 14px; color: #9c9999">DESCONTO</strong>
+                                            @Html.TextBoxFor(m => m.ValorDesconto, new { @class = "form-control", @Style = "font: 20px bold", @onkeyup = "mascara(this, moeda);", @id = "ValorDesconto" })
+                                            <i>R$</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-3">
+                                    <div class="form-group form-md-line-input">
+                                        <div class="input-icon left">
+                                            <strong style="font: 'Open Sans', sans-serif 14px; color: #9c9999">VALOR TOTAL</strong>
+                                            <input type="text" disabled="disabled" id="ValorTotal" class="form-control" value="@( (Model.Produtos.Sum(m => m.ValorTotal) + Model.Servicos.Sum(m => m.Valor)) - (Model.ValorDesconto.HasValue ? Model.ValorDesconto.Value : 0))" style="font: 20px bold" />
+                                            <i>R$</i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="submit" class="btn blue" value="Salvar" />
+                                    <a href="/Comanda/" class="btn default">Cancelar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal  fade" id="modalServico" tabindex="-1" role="dialog" aria-labelledby="modalServicoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalServicoLabel">Incluir Serviço</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("ServicoComanda", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal  fade" id="modalProduto" tabindex="-1" role="dialog" aria-labelledby="modalProdutoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalProdutoLabel">Incluir Produto</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("ProdutoComanda", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal  fade" id="modalFaturar" tabindex="-1" role="dialog" aria-labelledby="modalFaturarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalProdutoLabel">Receber</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("FaturarComanda", new ComandaPagamentoViewModel { Comanda = ((ComandaViewModel)Session["det_com"]), Parcelas = new List<ComandaPagamentoParcelaViewModel>() })
+            </div>
+        </div>
+    </div>
+</div>

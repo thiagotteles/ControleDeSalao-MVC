@@ -1,0 +1,94 @@
+﻿@model IOrderedEnumerable<App.MVC.ViewModels.ComandaViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/profile")
+<div class="page-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-credit-card"></i>
+                        <span class="caption-subject bold uppercase"> Comandas</span>
+                        <span class="caption-helper">em aberto...</span>
+                    </div><div class="actions">
+                        <a class="btn btn-lg sbold green" href="/Comanda/Novo/">
+                            <i class="fa fa-plus"></i>
+                            Criar uma nova comanda
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-md-4">
+                                <div class="portlet light bordered comanda bg-inverse">
+                                    <!-- STAT -->
+                                    <div class="portlet-body">
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                                                <span class="caption-subject font-green-seagreen sbold"> @(item.Cliente != null ? item.Cliente.Nome : string.Empty)</span>
+                                                <br />
+                                                <span class="caption-subject font-red-soft sbold">@(item.Profissional != null ? item.Profissional.Nome : string.Empty)</span>
+                                                <br />
+                                                <span class="caption-subject font-blue-hoki"> @item.SData </span>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                                <span class="uppercase profile-stat-title">R$ @item.ValorTotal </span>
+                                                <br />
+                                                <a href="/Comanda/Detalhe/@item.Id" class="btn btn-xs blue tooltips editar" data-item-id="@item.Id" data-placement="top" data-original-title="Editar">
+                                                    <i class="fa fa-edit"></i> Editar
+                                                </a>
+                                                <a class="btn btn-xs red-soft tooltips excluir" data-placement="top" data-original-title="Excluir" data-item-id="@item.Id">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".editar").click(function () {
+        var id = $(this).data("item-id");
+        window.location.href = "/Comanda/Detalhe/" + id;
+    });
+
+    $(".excluir").click(function () {
+        var id = $(this).data("item-id");
+        swal({
+            title: "Excluir comanda?",
+            text: "Você realmente deseja excluir esta comanda?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Sim, Excluir agora!",
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: false
+        },
+            function () {
+                $.get("/Comanda/Excluir", { id: id }, function (item) {
+                    swal({
+                        title: "Excluída",
+                        text: "A comanda foi excluída.",
+                        type: "success",
+                        loseOnConfirm: false
+                    }, function () {
+                        window.location.href = "/Comanda/";
+                    });
+                });
+
+            });
+    });
+</script>

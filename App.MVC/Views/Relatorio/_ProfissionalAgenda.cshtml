@@ -1,0 +1,44 @@
+﻿@model IEnumerable<App.MVC.ViewModels.AgendaViewModel>
+
+@{
+    Layout = "../Shared/_LayoutImpressao.cshtml";
+}
+
+@if (Model.Any())
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Agenda do profissional</h3>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Data</th>
+            <th>Horário</th>
+            <th>Serviço</th>
+            <th class="text-right">Valor</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelitem => item.SData)</td>
+                <td>@Html.DisplayFor(modelitem => item.Horario)</td>
+                <td>@Html.DisplayFor(modelitem => item.Servico.Descricao)</td>
+                <td class="text-right">@Html.DisplayFor(modelitem => item.Valor)</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Não existem agendas neste período para este profissional</h3>
+            </td>
+        </tr>
+    </table>
+}

@@ -1,0 +1,61 @@
+﻿@using App.MVC.ViewModels
+@model dynamic
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+@Styles.Render("~/Content/bootstrap-material-datetimepicker")
+@Scripts.Render("~/bundles/bootstrap-material-datetimepicker")
+
+
+<div class="page-content">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <span class="caption-subject font-blue-sharp bold uppercase">Agendas do profissional</span>
+                <span class="caption-helper">Relatório que mostra as agendas dos profissionais do salão</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                @using (Html.BeginForm("ProfissionalAgenda", "Relatorio", FormMethod.Post, new { target = "_blank" }))
+                {
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input">
+                            <label for="NomeCliente" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Profissional</label>
+                            <select class="form-control" id="NomeProfissional" name="NomeProfissional">
+                                @foreach (var profissional in (List<ProfissionalViewModel>)Session["TodosProfissionais"])
+                                {
+                                    <option value="@profissional.Nome">@profissional.Nome</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Data Inicial</label>
+                            @Html.TextBox("dataInicial", Convert.ToDateTime(Session["agepro_dtInicial"]).ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+                        </div>
+                    </div>
+                    <div class="col-md-2 ">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Data Final</label>
+                            @Html.TextBox("dataFinal", Convert.ToDateTime(Session["agepro_dtFinal"]).ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-left">
+                        <br />
+                        <br />
+                        <input type="submit" value="Gerar Relatório" class="btn blue" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/Relatorios")

@@ -1,0 +1,83 @@
+﻿@model App.MVC.ViewModels.ServicoViewModel
+
+@Styles.Render("~/Content/bootstrap-timepicker")
+@Scripts.Render("~/bundles/bootstrap-timepicker")
+<script src="~/assets/pages/scripts/components-date-time-pickers.min.js"></script>
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Serviço</h4>
+        </div>
+        @using (Html.BeginForm("Detalhe", "Servico", FormMethod.Post, new { @id="formDetalheServico" }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Status)
+            @Html.HiddenFor(m => m.EmpresaId)
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control", @required = "required" })
+                            <label class="control-label">Nome<span class="required"> * </span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input ">
+                            <div class="input-icon left">
+                                @Html.TextBoxFor(model => model.Valor, new { @class = "form-control", @onkeyup = "mascara(this, moeda);", @required = "required" })
+                                <label class="control-label">Valor<span class="required"> * </span></label>
+                                <i id="iconComissao">R$</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input ">
+                            <div class="input-icon right">
+                                @Html.TextBoxFor(model => model.ValorParaProfissional, new { @class = "form-control", maxlength = "3", @onkeyup = "mascara(this, soNumeros);" })
+                                <label>Comissão do profissional</label>
+                                <span class="help-block">% para o profissional...</span>
+                                <i id="iconComissao">%</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input">
+                            <div class="input-group">
+                                @Html.TextBoxFor(model => model.Duracao, new { @class = "form-control timepicker timepicker-24", @required = "required" })
+                                <span class="input-group-btn">
+                                    <button class="btn default" type="button">
+                                        <i class="fa fa-clock-o"></i>
+                                    </button>
+                                </span>
+                                <label class="control-label">Duração<span class="required"> * </span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group form-md-line-input">
+                            <textarea class="form-control" rows="3" id="Observacao" name="Observacao"></textarea>
+                            <label>Observação</label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" id="btnCancelar">Cancelar</button>
+                    <button type="submit" class="btn blue">Salvar serviço</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#formDetalheServico").submit(function () {
+            if ($('#Duracao').val() == '0:00') {
+                sweetAlert('Oops...', 'Informe a duração do serviço!', 'info')
+                return false;
+            }
+        });
+        return true;
+    });
+</script>

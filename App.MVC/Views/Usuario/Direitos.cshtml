@@ -1,0 +1,467 @@
+﻿@model App.MVC.ViewModels.UsuarioViewModel
+
+
+
+
+<div class="row">
+    <div class=" col-md-6 text-right">
+        <span class="font-dark bold">Quais telas este usuário poderá acessar?</span>
+    </div>
+    <div class="col-md-6 text-left">
+        <div class="md-checkbox">
+            <input type="checkbox" id="checkall" class=" md-check">
+
+            <label for="checkall">
+                <span></span>
+                <span class="check"></span>
+                <span class="box" id="lblcheckall"></span> Ativar/Desativar todos
+            </label>
+        </div>
+    </div>
+</div>
+<div class="well">
+    <h4>Menu principal</h4>
+    <table>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @*<input type="checkbox" id="checkbox1_2" class="">*@
+                    @Html.CheckBoxFor(model => model.Acesso.SAGE, new { @class = "  md-check", @id = "SAGE" })
+                    <label for="SAGE">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Agenda
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SCOM, new { @class = "  md-check", @id = "SCOM" })
+                    <label for="SCOM">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Comanda
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SFIN, new { @class = "  md-check", @id = "SFIN" })
+                    <label for="SFIN">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Financeiro
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SPRFC, new { @class = "  md-check", @id = "SPRFC" })
+                    <label for="SPRFC">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Comissões
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="well">
+    <h4>Meu Salão</h4>
+    <table>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SCLI, new { @class = "  md-check", @id = "SCLI" })
+                    <label for="SCLI">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Meus Clientes
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SSER, new { @class = "  md-check", @id = "SSER" })
+                    <label for="SSER">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Meus Serviços
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SPRF, new { @class = "  md-check", @id = "SPRF" })
+                    <label for="SPRF">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Meus Profissionais
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SPRO, new { @class = "  md-check", @id = "SPRO" })
+                    <label for="SPRO">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Meus Produtos
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SUSU, new { @class = "  md-check", @id = "SUSU" })
+                    <label for="SUSU">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Usuários do sistema
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+
+<div class="well">
+    <h4>Relatórios</h4>
+    <table>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SRFIN, new { @class = "  md-check", @id = "SRFIN" })
+                    <label for="SRFIN">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Finanças
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RFFEC, new { @class = "  md-check", @id = "RFFEC" })
+                    <label for="RFFEC">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Fechamento de caixa
+                    </label>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RFMOV, new { @class = "  md-check", @id = "RFMOV" })
+                    <label for="RFMOV">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Movimentações
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RFDES, new { @class = "  md-check", @id = "RFDES" })
+                    <label for="RFDES">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Despesas
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RFREC, new { @class = "  md-check", @id = "RFREC" })
+                    <label for="RFREC">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Receitas
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RFDESC, new { @class = "  md-check", @id = "RFDESC" })
+                    <label for="RFDESC">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Descontos oferecidos
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SRCLI, new { @class = "  md-check", @id = "SRCLI" })
+                    <label for="SRCLI">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Clientes
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RCAGE, new { @class = "  md-check", @id = "RCAGE" })
+                    <label for="RCAGE">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Agendas do cliente
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RCCOM, new { @class = "  md-check", @id = "RCCOM" })
+                    <label for="RCCOM">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Comandas do cliente
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RCRAN, new { @class = "  md-check", @id = "RCRAN" })
+                    <label for="RCRAN">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Melhores clientes
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SRPRO, new { @class = "  md-check", @id = "SRPRO" })
+                    <label for="SRPRO">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Profissionais
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RPCOM, new { @class = "  md-check", @id = "RPCOM" })
+                    <label for="RPCOM">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Comissões dos profissionais
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RPAGE, new { @class = "  md-check", @id = "RPAGE" })
+                    <label for="RPAGE">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Agendas do profissional
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RPRAN, new { @class = "  md-check", @id = "RPRAN" })
+                    <label for="RPRAN">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Melhores profissionais
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SRPRS, new { @class = "  md-check", @id = "SRPRS" })
+                    <label for="SRPRS">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Produtos & Serviços
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RPRDRAN, new { @class = "  md-check", @id = "RPRDRAN" })
+                    <label for="RPRDRAN">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Melhores Produtos
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RPRDEST, new { @class = "  md-check", @id = "RPRDEST" })
+                    <label for="RPRDEST">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Estoque de Produtos
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.RSERRAN, new { @class = "  md-check", @id = "RSERRAN" })
+                    <label for="RSERRAN">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Melhores Serviços
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="well">
+    <h4>Dashboard</h4>
+    <table>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SOPEDASH, new { @class = "  md-check", @id = "SOPEDASH" })
+                    <label for="SOPEDASH">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Operacional
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SDASH, new { @class = "  md-check", @id = "SDASH" })
+                    <label for="SDASH">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Gerencial
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div class="well">
+    <h4>Configurações</h4>
+    <table>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.MMSIS, new { @class = "  md-check", @id = "MMSIS" })
+                    <label for="MMSIS">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Meu Sistema
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SCSMS, new { @class = "  md-check", @id = "SCSMS" })
+                    <label for="SCSMS">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> SMS
+                    </label>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="md-checkbox">
+                    @Html.CheckBoxFor(model => model.Acesso.SMENSAL, new { @class = "  md-check", @id = "SMENSAL" })
+                    <label for="SMENSAL">
+                        <span></span>
+                        <span class="check"></span>
+                        <span class="box"></span> Mensalidades do sistema
+                    </label>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+<script>
+    $("#checkall").click(function () {
+        //alert($(this).is(':checked'));
+        //$("").val($(this).is(':checked'))
+        $(".md-check").prop('checked', $(this).prop("checked"));
+        //alert($(this).prop("checked"))
+    });
+</script>

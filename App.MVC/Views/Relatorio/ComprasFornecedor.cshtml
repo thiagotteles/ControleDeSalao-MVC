@@ -1,0 +1,141 @@
+﻿@using System.Web.UI.WebControls
+@model dynamic
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Scripts.Render("~/bundles/Mascaras")
+@Scripts.Render("~/bundles/jqueryUi")
+@Scripts.Render("~/bundles/datepicker")
+@Styles.Render("~/Content/datetime")
+
+<style>
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        cursor: pointer;
+        left: 0;
+        font-size: 12pt;
+        font-weight: bold;
+        z-index: 1000;
+        float: left;
+        display: none;
+        min-width: 160px;
+        _width: 160px;
+        padding: 4px 0;
+        margin: 2px 0 0 0;
+        list-style: none;
+        background-color: #ffffff;
+        border-color: #ccc;
+        border-color: rgba(0, 0, 0, 0.2);
+        border-style: solid;
+        border-width: 1px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        -webkit-background-clip: padding-box;
+        -moz-background-clip: padding;
+        background-clip: padding-box;
+        *border-right-width: 2px;
+        *border-bottom-width: 2px;
+        border: none;
+        z-index: 1511;
+        position: fixed;
+    }
+
+    .ui-state-focus {
+        background: #f1f1f1;
+        outline: none;
+    }
+</style>
+<div id="breadcrumb">
+    <ul class="breadcrumb">
+        <li><i class="fa fa-home"></i><a href="/Home">Home</a></li>
+        <li class="active">Relatório</li>
+    </ul>
+</div>
+<div class="main-header clearfix">
+    <div class="page-title">
+        <h3 class="no-margin">Compras por fornecedor</h3>
+        <span>Relatório que mostra as compras por fornecedor</span>
+    </div>
+</div>
+<div class="padding-md">
+    <div class="row">
+        @using (Html.BeginForm("ComprasFornecedor", "Relatorio", FormMethod.Post, new { target = "_blank" }))
+        {
+            <div class="col-xs-6 col-md-6">
+                @Html.Label("Fornecedor")
+            </div>
+            <div class="col-xs-6 col-md-6">
+                @Html.Label("Período")
+            </div>
+            <div class="col-xs-6 col-md-6">
+                @Html.TextBox("nomeFornecedor", null, new { @id = "NomeFornecedor", @class = "form-control", @placeholder = "Digite o nome do fornecedor", required = "required" })
+            </div>
+            <div class="col-xs-2 col-md-2 text-right">
+                @Html.TextBox("dataInicial", Convert.ToDateTime(Session["comfor_dtInicial"]).ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+            </div>
+            <div class="col-xs-2 col-md-2 text-right">
+                @Html.TextBox("dataFinal", Convert.ToDateTime(Session["comfor_dtFinal"]).ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+            </div>
+            <div class="col-xs-2 col-md-2 text-left">
+                <input type="submit" value="Gerar Relatório" class="btn btn-info" />
+            </div>
+        }
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            format: "dd/mm/yyyy",
+            language: "pt-BR",
+            autoclose: true
+
+        });
+    });
+
+    $("#NomeFornecedor").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/Fornecedor/FornecedorAutoComplete", type: "POST", dataType: "json",
+                //original code
+                //data: { searchText: request.id, maxResults: 10 },
+                //updated code; updated to request.term 
+                //and removed the maxResults since you are not using it on the server side
+                data: { id: request.term },
+
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        //original code
+                        return { label: item.label, value: item.label, id: item.id };
+                        //updated code
+                        //return { label: item.label, value: item.label, id: item.id };
+                    }));
+                },
+                select: function (event, ui) {
+                    //update the jQuery selector here to your target hidden field
+                    $("#NomeFornecedor").val(ui.item.id);
+                }
+            });
+        },
+    });
+    
+    $(function () {
+        $('#NomeFornecedor').blur(function () {
+            //make ajax call to action method to get the description for this value
+            $.get("/Fornecedor/ResgataFornecedor", { nome: $(this).val() }, function (item) {
+                if (item.Id == 0) {
+                    $("#NomeFornecedor").val("");
+                } else {
+                    $("#NomeFornecedor").val(item.Nome);
+                }
+            });
+        });
+    });
+
+
+</script>

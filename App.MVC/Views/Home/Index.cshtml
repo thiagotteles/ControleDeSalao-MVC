@@ -1,0 +1,189 @@
+﻿@model App.MVC.ViewModels.EmpresaViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    <div class="page-head">
+        <div class="page-title">
+            <h1>
+                <i class="fa fa-dashboard"></i>
+                Painel de controle
+                <small>As configurações iniciais do seu salão</small>
+            </h1>
+        </div>
+    </div>
+    <div class="row text-center">
+        <a class="btn green-jungle" id="btnTutorial"><i class="fa fa-heart"></i>Conheça o painel de controle</a>
+    </div>
+    <br />
+    <div class="panel panel-warning">
+        <div class="panel-heading"><i class="fa fa-magic"></i> Vamos configurar o seu salão?</div>
+        <div class="panel-body" style='margin-top: 30px; margin-bottom: 30px'>
+            <div class='row'>
+                <div class='col-md-3'>
+                    <p class='text-center'>
+                        <a href="/Profissional/"><img style='height: 80px' src="/assets/layouts/layout/img/profissionais.png"></a>
+                    </p>
+                    <h4 class='text-center' style='margin-top:20px'>
+                        <a href="/Profissional/">Profissionais</a>
+                    </h4>
+                    @if (ViewBag.QtdProfissionais > 0)
+                    {
+                        <p class='text-center text-default'>Ótimo! Você já possui pelo menos um profissional ativado com sucesso em seu salão.</p>
+                        <p class='text-center' style='color: #53b953;'>
+                            <i class="fa fa-check-circle" style='font-size:30px;'></i><span style='font-size:20px; margin-left: 10px;'>Configurado!</span>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class='text-center text-default'>Você ainda não configurou um profissional. Os clientes não poderão ser agendados.</p>
+                        <p class='text-center'><a href="/Profissional/" class='btn'>Configurar</a></p>
+                    }
+
+                </div>
+                <div class='col-md-3'>
+                    <p class='text-center'>
+                        <a href="/Servico/"><img style='height: 80px' src="/assets/layouts/layout/img/servicos.png"></a>
+                    </p>
+                    <h4 class='text-center' style='margin-top:20px'>
+                        <a href="/Servico/">Serviços</a>
+                    </h4>
+                    @if (ViewBag.QtdServicos > 5)
+                    {
+                        <p class='text-center text-default'>Muito bom! você já cadastrou e configurou alguns serviços e agora já pode agendar com eles.</p>
+                        <p class='text-center' style='color: #53b953;'>
+                            <i class="fa fa-check-circle" style='font-size: 30px;'></i><span style='font-size: 20px; margin-left: 10px;'>Configurado!</span>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class='text-center text-default'>Você ainda não configurou nenhum serviço novo. Informe quais serviços que você oferece aos clientes.</p>
+                        <p class='text-center'><a href="/Servico/" class='btn'>Configurar</a></p>
+                    }
+
+                </div>
+                <div class='col-md-3'>
+                    <p class='text-center'>
+                        <a href="/Produto/"><img style='height: 80px' src="/assets/layouts/layout/img/produtos.png"></a>
+                    </p>
+                    <h4 class='text-center' style='margin-top:20px'>
+                        <a href="/Produto/">Produtos</a>
+                    </h4>
+                    @if (ViewBag.QtdProdutos > 0)
+                    {
+                        <p class='text-center text-default'>Parabéns! Você já possui pelo menos um produto ativado com sucesso em seu salão e já pode vende-lo.</p>
+                        <p class='text-center' style='color: #53b953;'>
+                            <i class="fa fa-check-circle" style='font-size: 30px;'></i><span style='font-size: 20px; margin-left: 10px;'>Configurado!</span>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class='text-center text-default'>Seu salão ainda não tem produtos cadastrados. Que tal criar seu primeiro produto para vender?</p>
+                        <p class='text-center'><a href="/Produto/" class='btn'>Configurar</a></p>
+                    }
+
+                </div>
+                <div class='col-md-3'>
+                    <p class='text-center'>
+                        <a href="/Empresa/Perfil"><img style='height: 80px' src="/assets/layouts/layout/img/configuracoes.png"></a>
+                    </p>
+                    <h4 class='text-center' style='margin-top:20px'>
+                        <a href="/Empresa/Perfil/">Dados do Salão</a>
+                    </h4>
+                    @if (ViewBag.TemCpf)
+                    {
+                        <p class='text-center text-default'>Sensacional! Você já informou os dados básicos do seu salão, agora nós sabemos quem é o nosso cliente.</p>
+                        <p class='text-center' style='color: #53b953;'>
+                            <i class="fa fa-check-circle" style='font-size: 30px;'></i><span style='font-size: 20px; margin-left: 10px;'>Configurado!</span>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class='text-center text-default'>Você ainda não nos informou os dados básicos do seu salão. Para um melhor atendimento precisamos que nos informe.</p>
+                        <p class='text-center'><a href="/Empresa/Perfil" class='btn'>Configurar</a></p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <section id='section-minha-conta' class="panel panel-primary">
+        <div class="panel-heading">
+            <span style='font-size: 120%;' id='nome-da-loja-resumo'>
+                <a href="/Empresa/Perfil/"><i class="fa fa-circle" style="color: #5ebd5e; font-size: 22px;"></i></a>
+                &nbsp;Meu Salão
+            </span>
+        </div>
+        <div class="panel-body">
+            <div class='row' style='margin-top: 30px'>
+                <div class='col-xs-6 col-sm-3 col-md-3'>
+                    <p class='text-center'>
+                        <img style='height: 80px' src="../../assets/layouts/layout/img/prof.png">
+                    </p>
+                    <h5 style='margin-top: 20px' class='text-center'>
+                        @ViewBag.QtdProfissionais Profissionais
+                    </h5>
+                </div>
+                <div class='col-xs-6 col-sm-3 col-md-3'>
+                    <p class='text-center'>
+                        <img style='height: 80px' src="../../assets/layouts/layout/img/cli.png">
+                    </p>
+                    <h5 style='margin-top: 20px' class='text-center'>
+                        @ViewBag.QtdClientes Clientes
+                    </h5>
+                </div>
+                <div class='col-xs-6 col-sm-3 col-md-3'>
+                    <p class='text-center'>
+                        <img style='height: 80px' src="../../assets/layouts/layout/img/serv.png">
+                    </p>
+                    <h5 style='margin-top: 20px' class='text-center'>
+                        @ViewBag.QtdServicos Serviços
+                    </h5>
+                </div>
+                <div class='col-xs-6 col-sm-3 col-md-3'>
+                    <p class='text-center'>
+                        <img style='height: 80px' src="../../assets/layouts/layout/img/prod.png">
+                    </p>
+                    <h5 style='margin-top: 20px' class='text-center'>
+                        @ViewBag.QtdProdutos Produtos
+                    </h5>
+                </div>
+            </div>
+            <h4 class='padding-sm' style='margin-top: 50px; background-color: #f4f4f4; border-radius: 5px'>Informações da conta</h4>
+            <table class="table">
+                <tr id='tr-endereco-loja'>
+                    <th style='border-top:0'>Endereço da loja</th>
+                    <td style='border-top:0'>
+                        @Model.Endereco
+                    </td>
+                </tr>
+                <tr>
+                    <th>Responsável</th>
+                    <td>
+                        @Model.NomeResponsavel (@Model.CPFResponsavel)
+                    </td>
+                </tr>
+                <tr id='tr-plano'>
+                    <th>Seu plano</th>
+                    <td>
+                        @if (!Model.PlanoId.HasValue)
+                        {
+                            <span class='label label-info' style='font-size: 110%; '>Plano Free </span>
+                        }
+                        else
+                        {
+                            <span class='label label-primary' style='font-size: 110%; '>Plano Pago </span>
+                        }
+
+                        <p class='visible-md visible-lg'>Vigência finaliza em @Model.DataBloqueio.ToString("d") (daqui a @Model.DiasRestante dias)</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+</div>
+@Styles.Render("~/Content/tutorialize")
+@Scripts.Render("~/bundles/tutorialize")
+@Scripts.Render("~/bundles/Home-Index")

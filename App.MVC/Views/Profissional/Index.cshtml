@@ -1,0 +1,81 @@
+﻿@using App.MVC.ViewModels
+@using ControleDeSalao.Infra.Cross.Security
+@model IEnumerable<App.MVC.ViewModels.ProfissionalViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/datatables")
+@Scripts.Render("~/bundles/datatable")
+@Scripts.Render("~/bundles/mascaras")
+
+<div class="page-content">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-group font-blue-hoki"></i>
+                <span class="caption-subject font-blue-sharp bold uppercase">Meus Profissionais</span>
+                <span class="caption-helper">O Seu time, a sua equipe...</span>
+            </div>
+            <div class="actions">
+                <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-12 text-left">
+                    <br />
+                    <a class="btn blue" data-toggle="modal" href="#modalProfissional">
+                        <i class="fa fa-plus"></i>
+                        Incluir um novo profissional
+                    </a>
+                </div>
+            </div>
+            <br />
+            <div>
+                <table class="table table-striped table-bordered table-hover table-condensed" id="tableProfissionais">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Celular</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Nome</td>
+                                <td>@item.CPF</td>
+                                <td>@item.Email</td>
+                                <td>@item.Telefone</td>
+                                <td>@item.Celular</td>
+                                <td class="text-right">
+                                    <a class="btn btn-xs blue tooltips editar" data-id="@item.Id" data-placement="top" data-original-title="Editar os dados do Profissional">
+                                        <i class="fa fa-edit"></i> Editar
+                                    </a>
+                                    <a class="btn btn-xs red-soft tooltips excluir" data-placement="top" data-original-title="Excluir" data-item-id="@item.Id">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/Profissional-Index")
+
+<div class="modal fade" id="modalEdit">
+</div>
+
+<div class="modal fade" id="modalProfissional" tabindex="-1" role="dialog" aria-labelledby="modalProfissionalLabel" aria-hidden="true">
+    @Html.Partial("Detalhe", new ProfissionalViewModel())
+</div>

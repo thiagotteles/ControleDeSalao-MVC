@@ -1,0 +1,46 @@
+﻿@model App.MVC.ViewModels.ComandaViewModel
+
+@using (Html.BeginForm("AddProduto", "Comanda", FormMethod.Post, new { @id = "AddProduto" }))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="NovoProduto" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Produto</label>
+                <select class="bs-select form-control" data-live-search="true" data-size="8" id="NovoProduto" name="NovoProduto" required>
+                    <option value=""></option>
+                    @foreach (var prod in (IEnumerable<App.MVC.ViewModels.ProdutoViewModel>)Session["TodosProdutos"])
+                    {
+                        <option>@prod.Descricao</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group form-md-line-input ">
+                <input type="text" class="form-control" id="NovaQtdProduto" name="NovaQtdProduto" required>
+                <label for="NovaQtdProduto">Quantidade</label>
+                <span class="help-block">Qual a quantidade vendida...</span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group form-md-line-input ">
+                <input type="text" class="form-control" id="NovaUnidade" name="NovaUnidade" disabled="disabled">
+                <label for="NovaQtdProduto">Und.</label>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group form-md-line-input ">
+                <input type="text" class="form-control" id="NovoValorProduto" name="NovoValorProduto" onkeyup="mascara(this, moeda)">
+                <label for="NovoValorProduto">Valor Unitário</label>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="modal-footer">
+        <button type="button" class="btn dark btn-outline" data-dismiss="modal" id="btnCancelar">Cancelar</button>
+        <input type="submit" class="btn green text-right" value="Incluir Produto" />
+    </div>
+    @Scripts.Render("~/bundles/Comanda-Produto")
+    <input type="hidden" id="qtdEstoque"/>
+}

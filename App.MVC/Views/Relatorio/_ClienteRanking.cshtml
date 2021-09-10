@@ -1,0 +1,43 @@
+﻿@model IOrderedEnumerable<App.MVC.ViewModels.Relatorios.RelClienteRanking>
+
+
+@{
+    Layout = "../Shared/_LayoutImpressao.cshtml";
+}
+
+@if (Model.Any())
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Melhores Clientes</h3>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Cliente</th>
+            <th class="text-center">Quantidade de comandas</th>
+            <th class="text-right">Valor Gasto</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelitem => item.NomeCliente)</td>
+                <td class="text-center">@Html.DisplayFor(modelitem => item.Quantidade)</td>
+                <td class="text-right">@Html.DisplayFor(modelitem => item.Valor)</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+        <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Não existem comandas no período selecionado</h3>
+            </td>
+        </tr>
+    </table>
+}

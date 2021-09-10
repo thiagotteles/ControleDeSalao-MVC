@@ -1,0 +1,250 @@
+﻿@model UsuarioViewModel
+@using App.MVC.ViewModels
+@using ControleDeSalao.Infra.Cross.Security;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(function() {
+        $(".md-check").attr("disabled", true);
+    })
+</script>
+<link href="~/assets/pages/css/profile.min.css" rel="stylesheet" />
+<div class="page-content">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="profile-sidebar">
+                <div class="portlet light profile-sidebar-portlet bordered">
+                    <div class="profile-userpic">
+                        <img src="@Cookies.UrlAvatarUsuarioLogado" class="img-responsive" alt="">
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name"> @Cookies.LoginUsuarioLogado </div>
+                        <div class="profile-usertitle-job"> @Cookies.CargoUsuarioLogado </div>
+                    </div>
+                    <div class="profile-userbuttons">
+                        <a class="btn  btn-circle green btn-sm" data-toggle="modal" href="#modalAvatar">
+                            Escoher Avatar
+                        </a>
+                    </div>
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li class="active">
+                                <a href="/Usuario/Perfil">
+                                    <i class="icon-user"></i> Meu Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Empresa/Perfil">
+                                    <i class="icon-home"></i> Meu Salão
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Usuario/Ajuda">
+                                    <i class="icon-info"></i> Ajuda
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="portlet light bordered">
+                    <div class="row list-separated profile-stat">
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <div class="uppercase profile-stat-title"> @(((IEnumerable<ControleDeSalao.Domain.Entities.Cliente>)ViewBag.Clientes).Count()) </div>
+                            <div class="uppercase profile-stat-text"> Clientes </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <div class="uppercase profile-stat-title"> @(((IEnumerable<ControleDeSalao.Domain.Entities.Profissional>)ViewBag.Profissionais).Count()) </div>
+                            <div class="uppercase profile-stat-text"> PROFISSIONAIS </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <div class="uppercase profile-stat-title"> @(((IEnumerable<ControleDeSalao.Domain.Entities.Servico>)ViewBag.Servicos).Count()) </div>
+                            <div class="uppercase profile-stat-text"> Serviços </div>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="feeds">
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="desc">
+                                                Status do plano
+                                                @if (Model.Empresa.PlanoId.HasValue)
+                                                {
+                                                    <span class="label label-sm label-success ">
+                                                        Assinante
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-sm label-warning">
+                                                        Em Teste
+                                                    </span>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="desc">
+                                                Valido até
+                                                @if (Model.Empresa.PlanoId.HasValue)
+                                                {
+                                                    <span class="label label-sm label-success ">
+                                                        @(Cookies.DataBloqueio.ToString("d"))
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-sm label-warning">
+                                                        @(Cookies.DataBloqueio.ToString("d"))
+                                                    </span>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="desc">
+                                                Valor do plano
+                                                @if (Model.Empresa.PlanoId.HasValue)
+                                                {
+
+                                                    <span class="label label-sm label-success">
+                                                        @( ((IEnumerable<MensalidadeViewModel>)Session["TodasMensalidades"]).OrderByDescending(m => m.SDataVencimento).ToList()[0].Valor)
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-sm label-success ">
+                                                        GRÁTIS
+                                                    </span>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title tabbable-line">
+                                <div class="caption caption-md">
+                                    <i class="icon-globe theme-font hide"></i>
+                                    <span class="caption-subject font-blue-madison bold uppercase">Meu Perfil</span>
+                                </div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#tab_1_1" id="tb_1_1" data-toggle="tab">Meus dados</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_1_2" id="tb_1_2" data-toggle="tab">Meus Acessos</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tab_1_3" id="tb_1_3" data-toggle="tab">Alterar Senha</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_1_1">
+                                        <form action="/Usuario/Configurar" method="post">
+                                            <div class="form-group form-md-line-input">
+                                                <label class="control-label">Nome</label>
+                                                @Html.TextBoxFor(m => m.Login, new { @class = "form-control", @required = "required" })
+                                            </div>
+                                            <div class="form-group form-md-line-input">
+                                                <label class="control-label">Email</label>
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @disabled = "disabled" })
+                                            </div>
+                                            <div class="form-group form-md-line-input">
+                                                <label class="control-label">Cargo</label>
+                                                @Html.TextBoxFor(m => m.Cargo, new { @class = "form-control" })
+                                            </div>
+
+                                            <div class="margin-top-10">
+                                                <input type="submit" class="btn blue" value="Salvar" />
+                                                <a href="/Usuario/Perfil" class="btn default"> Cancelar </a>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="tab-pane" id="tab_1_2">
+                                        <div>
+                                            @Html.Partial("Direitos", Model)
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="tab_1_3">
+                                        <form action="/Usuario/AlterarSenha" method="post">
+                                            <div class="form-group form-md-line-input">
+                                                <label class="control-label">Senha atual</label>
+                                                <input type="password" class="form-control" id="senhaAtual" name="senhaAtual" required />
+                                                <span class="help-block">Digite a sua senha atual</span>
+                                            </div>
+                                            <div class="form-group form-md-line-input">
+                                                <label class="control-label">Nova senha</label>
+                                                <input type="password" class="form-control" id="novaSenha" name="novaSenha" required />
+                                                <span class="help-block">Digite uma senha com 6 ou mais caracteres</span>
+                                            </div>
+                                            <div class="form-group form-md-line-input">
+                                                <label class="control-label">Repita a nova senha</label>
+                                                <input type="password" class="form-control" id="reNovaSenha" name="reNovaSenha" required />
+                                                <span class="help-block">Escreva novamente a nova senha</span>
+                                            </div>
+                                            <div class="margin-top-10">
+                                                <input type="submit" class="btn blue" value="Salvar" />
+                                                <a href="/Usuario/Perfil" class="btn default"> Cancelar </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/sparkline")
+@Scripts.Render("~/bundles/profile")
+
+
+<script>
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        //save the latest tab; use cookies if you like 'em better:
+        localStorage.setItem('lastTabUsu', $(e.target).attr('id'));
+    });
+
+    //go to the latest tab, if it exists:
+    var lastTab = localStorage.getItem('lastTabUsu');
+    if (lastTab) {
+        $('#' + lastTab).tab('show');
+    }
+</script>
+
+<div class="modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-labelledby="modalAvatarLabel" aria-hidden="true">
+    @Html.Partial("_Avatar")
+</div>

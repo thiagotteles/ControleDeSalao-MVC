@@ -1,0 +1,80 @@
+﻿@using App.MVC.ViewModels
+@using ControleDeSalao.Infra.Cross.Security
+@model IEnumerable<App.MVC.ViewModels.ProdutoViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/datatables")
+@Scripts.Render("~/bundles/datatable")
+@Scripts.Render("~/bundles/mascaras")
+
+<div class="page-content">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-gift font-red-mint"></i>
+                <span class="caption-subject font-blue-sharp bold uppercase">Meus Produtos</span>
+                <span class="caption-helper">Aqui está a lista de produtos que você vende, não insumos</span>
+            </div>
+            <div class="actions">
+                <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-12 text-left">
+                    <br />
+                    <a class="btn blue" data-toggle="modal" href="#modalProduto">
+                        <i class="fa fa-plus"></i>
+                        Incluir um novo produto
+                    </a>
+                </div>
+            </div>
+            <br />
+            <div>
+                <table class="table table-striped table-bordered table-hover table-condensed" id="tableProdutos">
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th class="text-right">Valor</th>
+                            <th class="text-center">Und.</th>
+                            <th class="text-center">Em estoque</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Descricao</td>
+                                <td class="text-right">@item.PrecoVenda.Value.ToString("C")</td>
+                                <td class="text-center">@item.Unidade</td>
+                                <td class="text-center">@item.QtdEstoque</td>
+                                <td class="text-right"> 
+                                    <a class="btn btn-xs blue tooltips editar" data-id="@item.Id" data-placement="top" data-original-title="Editar os dados do cliente">
+                                        <i class="fa fa-edit"></i> Editar
+                                    </a>
+                                    <a class="btn btn-xs red-soft tooltips excluir" data-placement="top" data-original-title="Excluir" data-item-id="@item.Id">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/Produto-Index")
+
+<div class="modal fade" id="modalEdit">
+</div>
+
+<div class="modal fade" id="modalProduto" tabindex="-1" role="dialog" aria-labelledby="modalProdutoLabel" aria-hidden="true">
+    @Html.Partial("Detalhe", new ProdutoViewModel())
+</div>

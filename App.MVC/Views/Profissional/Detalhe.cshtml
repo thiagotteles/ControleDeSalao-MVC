@@ -1,0 +1,95 @@
+﻿@model App.MVC.ViewModels.ProfissionalViewModel
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Profissional</h4>
+        </div>
+        @using (Html.BeginForm("Detalhe", "Profissional", FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Status)
+            @Html.HiddenFor(m => m.EmpresaId)
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.Nome, new { @class = "form-control", @required = "required" })
+                            <label class="control-label">Nome ou Apelido<span class="required"> * </span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.CPF, new { @class = "form-control", @onkeyup = "mascara(this, cpf);", @maxlength = 14, @onblur = "ValidarCPF(this)" })
+                            <label class="control-label">CPF</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.RG, new { @class = "form-control", @maxlength="16" })
+                            <label class="control-label">RG</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.Celular, new { @class = "form-control", onkeyup = "mascara(this, mtel);", maxlength = "15" })
+                            <label class="control-label">Celular</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.Telefone, new { @class = "form-control", onkeyup = "mascara(this, mtel);", maxlength = "15" })
+                            <label class="control-label">Tel. Residencial</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                            <label class="control-label">Email</label>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.Endereco, new { @class = "form-control" })
+                            <label class="control-label">Endereço Completo</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input ">
+                            <div class="input-icon right">
+                                @Html.TextBoxFor(model => model.Comissao, new { @class = "form-control", maxlength = "3", @onkeyup = "mascara(this, soNumeros);" })
+                                <label>Comissão dos serviços</label>
+                                <span class="help-block">% Caso seja fixa para todos os serviços</span>
+                                <i id="iconComissao">%</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input ">
+                            <div class="input-icon left">
+                                @Html.TextBoxFor(model => model.Salario, new { @class = "form-control", @onkeyup = "mascara(this, moeda);" })
+                                <label>Salário fixo</label>
+                                <span class="help-block">Valor fixo pago por mês</span>
+                                <i id="iconComissao">R$</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.SDataContratacao, new { @class = "form-control", @onkeyup = "mascara(this, data);", onblur = "validaData(this,this.value)", maxlength = "10" })
+                            <label class="control-label">Data da Contratação</label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" id="btnCancelar">Cancelar</button>
+                    <button type="submit" class="btn blue">Salvar Profissional</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script>
+</script>

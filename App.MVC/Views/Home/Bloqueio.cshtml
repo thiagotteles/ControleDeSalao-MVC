@@ -1,0 +1,102 @@
+﻿@model App.MVC.ViewModels.EmpresaViewModel
+
+@{
+    ViewBag.Title = "Bloqueio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (!Model.PlanoId.HasValue)
+{
+    <div class="page-content">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" fa fa-hand-peace-o font-blue-dark"></i>
+                    <span class="caption-subject font-blue-dark sbold uppercase">Parábens, você concluíu o teste</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <form method="POST" action="/Home/Bloqueio">
+                    <div class="form-body row">
+                        <div class="note note-default col-md-12">
+                            <h3>O período de avaliação acabou</h3>
+                            <p>
+                                Os planos são atualizados de forma automática, baseado na quantidade de profissionais no sistema.
+                            </p>
+                            <p>
+                                Ao ativar a assinatura nós iremos gerar um boleto para vencimento para o dia <strong> @DateTime.Today.AddDays(2).ToString("d") </strong> e você poderá continuar usando o sistema até este dia, o sistema ficará indisponível até identificarmos o pagamento.
+                            </p>
+                            <p>
+                                <strong>Se estiver com dúvidas, fique a vontade e entre em contato pelo nosso chat.</strong>
+                            </p><p>
+                                Para ativar a sua assinatura clique no botão abaixo.
+                            </p>
+                        </div>
+                        <hr />
+                        <div class="col-md-12">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <img src="~/assets/layouts/layout/img/arrow-right.png" style="height: 90px" /> &nbsp;
+                                    </td>
+                                    <td valign="bottom">
+                                        <input type="submit" class="btn blue" value="Clique aqui para ativar a sua assinatura">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="page-content">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class=" fa fa-hand-stop-o font-red-soft"></i>
+                    <span class="caption-subject font-red-soft sbold uppercase">Sistema foi bloqueado</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <form method="POST" action="/Home/Bloqueio">
+                    <div class="form-body row">
+                        <div class="note note-danger col-md-12">
+                            <h3>Ainda não identificamos o seu pagamento</h3>
+                            <p>
+                                Efetue o pagamento para que o seu sistema seja liberado novamente
+                            </p>
+                            <p>
+                                Imprima em aberto abaixo.
+                            </p>
+                        </div>
+                        <hr />
+                        <div class="col-md-12">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <img src="~/assets/layouts/layout/img/arrow-right.png" style="height: 90px" /> &nbsp;
+                                    </td>
+                                    <td valign="bottom">
+                                        @*<input type="submit" class="btn blue" value="Clique aqui para imprimir o boleto aberto">*@
+                                        <a class="btn blue imprimir" style="cursor: pointer" data-id="@(ViewBag.MensalidadeAberta.Id)">Imprimir Boleto em aberto</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".imprimir").click(function () {
+            var id = $(this).attr("data-id");
+            var url = "/Empresa/VisualizarBoleto/" + id;
+            window.open(url, "WindowPopup", 'width=688,height=780');
+        });
+    </script>
+}

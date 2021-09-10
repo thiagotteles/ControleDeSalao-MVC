@@ -1,0 +1,77 @@
+﻿@using ControleDeSalao.Infra.Cross.Security
+@model IEnumerable<App.MVC.ViewModels.ComissaoViewModel>
+
+@{
+    Layout = "../Shared/_LayoutImpressao.cshtml";
+}
+
+@if (Model.Any())
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Recibo de comissão</h3>
+            </td>
+        </tr>
+    </table>
+
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h4>Eu, <b> @Model.First().Profissional.Nome </b>declaro ter recebido <b>@Model.Sum(m => m.Valor).Value.ToString("C")</b> no dia <b>@Model.First().DataPagamento.Value.ToString("d")</b> da empresa <b>@Cookies.NomeEmpresaLogada</b> referente as seguintes comissões de serviços prestados </h4>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <table class="table table-striped">
+        <tr>
+            <th>Data</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th class="text-right">Valor</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelitem => item.SDataLancamento)</td>
+                <td>@Html.DisplayFor(modelitem => item.Descricao)</td>
+                <td>@Html.DisplayFor(modelitem => item.Status)</td>
+                <td class="text-right">@Html.DisplayFor(modelitem => item.Valor)</td>
+            </tr>
+        }
+    </table>
+    <br />
+    <br />
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h4>____________________ @DateTime.Today.Day de @(System.Globalization.DateTimeFormatInfo.CurrentInfo.GetMonthName(DateTime.Today.Month)) de @DateTime.Today.Year</h4>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <br />
+    <br />
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h4> ____________________________________________________________________</h4>
+            </td>
+        </tr>
+        <tr align="center">
+            <td>
+                <h4>@Model.First().Profissional.Nome @(!string.IsNullOrEmpty(Model.First().Profissional.CPF) ? " - " + Model.First().Profissional.CPF : "")</h4>
+            </td>
+        </tr>
+    </table>
+}
+else
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Não existem comissões para este profissional</h3>
+            </td>
+        </tr>
+    </table>
+}

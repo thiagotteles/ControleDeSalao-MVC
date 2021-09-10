@@ -1,0 +1,101 @@
+﻿@model App.MVC.ViewModels.ComandaPagamentoViewModel
+
+@Scripts.Render("~/bundles/Comanda-Faturar")
+<div class="row">
+    <div class="col-md-4 col-xs-4">
+        <div class="form-group form-md-line-input">
+            <div class="input-icon left">
+                <strong class="font-blue-dark">TOTAL COMANDA</strong>
+                <input type="text" disabled="disabled" id="totalComanda" class="form-control" value="@(Model.Comanda.ValorTotal)" style="font: 30px bold" />
+                <i>R$</i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-xs-4">
+        <div class="form-group form-md-line-input">
+            <div class="input-icon left">
+                <strong class="font-green-dark">RESTANTE</strong>
+                <input type="text" disabled="disabled" id="totalRestante" class="form-control" value="@(Model.Comanda.ValorTotal)" style="font: 30px bold" />
+                <i>R$</i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-xs-4">
+        <div class="form-group form-md-line-input">
+            <div class="input-icon left">
+                <strong class="font-red-pink">TROCO</strong>
+                <input type="text" disabled="disabled" id="totalTroco" class="form-control" value="0" style="font: 30px bold" />
+                <i>R$</i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-xs-6 text-right">
+        <div class="form-group form-md-line-input">
+            <strong class="font-lg font-blue-steel">Dinheiro:</strong>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right">
+        <div class="form-group form-md-line-input">
+            <input type="text" id="pagoDinheiro" class="form-control txtvlr" style="font: 20px bold" onkeyup="mascara(this, moeda);" />
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <strong class="font-lg font-blue-steel">Cartão de Crédito:</strong>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <input type="text" id="pagoCredito" class="form-control txtvlr" style="font: 20px bold" onkeyup="mascara(this, moeda);" />
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <strong class="font-lg font-blue-steel">Cartão de Débito:</strong>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <input type="text" id="pagoDebito" class="form-control txtvlr" style="font: 20px bold" onkeyup="mascara(this, moeda);" />
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <strong class="font-lg font-blue-steel">Cheque:</strong>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <input type="text" id="pagoCheque" class="form-control txtvlr" style="font: 20px bold" onkeyup="mascara(this, moeda);" />
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <strong class="font-lg font-blue-steel">Promissória:</strong>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <input type="text" id="pagoPromissoria" class="form-control txtvlr" style="font: 20px bold" onkeyup="mascara(this, moeda);" />
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <strong class="font-lg font-blue-steel">Pacote:</strong>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-6 text-right" style="margin-top: -10px">
+        <div class="form-group form-md-line-input">
+            <input type="text" id="pagoPacote" class="form-control txtvlr" style="font: 20px bold" onkeyup="mascara(this, moeda);" />
+        </div>
+    </div>
+</div>
+<br />
+<div class="modal-footer">
+    <button type="button" class="btn dark btn-outline" data-dismiss="modal" id="btnCancelar">Cancelar</button>
+    <input type="submit" class="btn green text-right btnSubmit" value="Receber" />
+</div>
+@Html.HiddenFor(m => m.Id)
+

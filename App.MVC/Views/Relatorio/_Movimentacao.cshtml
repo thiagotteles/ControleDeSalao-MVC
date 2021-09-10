@@ -1,0 +1,257 @@
+﻿@model IOrderedEnumerable<App.MVC.ViewModels.FinanceiroViewModel>
+
+
+@{
+    Layout = "../Shared/_LayoutImpressao.cshtml";
+    var planos = from p in Model.Where(m => (m.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Pago)).OrderBy(m => m.Tipo)
+                 group p by p.PlanoDeContaId into g
+                 select new
+                 {
+                     Id = g.Key,
+                 };
+}
+
+@if (Model.Any())
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Movimentação</h3>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-striped table-bordered table-borderless table-condensed">
+        <tr>
+            <th></th>
+            @if (@Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Dinheiro) > 0)
+            {
+                <th class="text-right">Dinheiro</th>
+            }
+            @if (@Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Débito) > 0)
+            {
+                <th class="text-right">Débito</th>
+            }
+            @if (@Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Crédito) > 0)
+            {
+                <th class="text-right">Crédito</th>
+            }
+            @if (@Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Boleto) > 0)
+            {
+                <th class="text-right">Boleto</th>
+            }
+            @if (@Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Depósito) > 0)
+            {
+                <th class="text-right">Depósito</th>
+            }
+            @if (@Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Cheque) > 0)
+            {
+                <th class="text-right">Cheque</th>
+            }
+            @if (@Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Outros) > 0)
+            {
+                <th class="text-right">Outros</th>
+            }
+            @if (@Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Promissória) > 0)
+            {
+                <th class="text-right">Promissória</th>
+            }
+            @if (@Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Pacote) > 0)
+            {
+                <th class="text-right">Pacote</th>
+            }
+        </tr>
+        @foreach (var plano in planos)
+        {
+            <tr>
+                <th>@Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).PlanoDeConta.Nome</th>
+                @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Dinheiro) > 0)
+                {
+                    if (Model.Count(m => (m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Dinheiro && m.PlanoDeContaId == plano.Id)) <= 0)
+                    {
+                        <td class="text-right">--</td>
+                    }
+                    else if (Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                    {
+                        <td class="text-right">@Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Dinheiro)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right">- @Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Dinheiro)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                }
+                @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Débito) > 0)
+                {
+                    if (Model.Count(m => (m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Débito && m.PlanoDeContaId == plano.Id)) <= 0)
+                    {
+                        <td class="text-right">--</td>
+                    }
+                    else if (Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                    {
+                        <td class="text-right">@Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Débito)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right">- @Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Débito)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                }
+                @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Crédito) > 0)
+                {
+                    if (Model.Count(m => (m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Crédito && m.PlanoDeContaId == plano.Id)) <= 0)
+                    {
+                        <td class="text-right">--</td>
+                    }
+                    else if (Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                    {
+                        <td class="text-right">@Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Crédito)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right">- @Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Crédito)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                }
+                @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Boleto) > 0)
+                {
+                    if (Model.Count(m => (m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Boleto && m.PlanoDeContaId == plano.Id)) <= 0)
+                    {
+                        <td class="text-right">--</td>
+                    }
+                    else if (Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                    {
+                        <td class="text-right">@Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Boleto)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right">- @Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Boleto)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                }
+                @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Depósito) > 0)
+                {
+                    if (Model.Count(m => (m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Depósito && m.PlanoDeContaId == plano.Id)) <= 0)
+                    {
+                        <td class="text-right">--</td>
+                    }
+                    else if (Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                    {
+                        <td class="text-right">@Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Depósito)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right">- @Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Depósito)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                }
+                @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Cheque) > 0)
+                {
+                    if (Model.Count(m => (m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Cheque && m.PlanoDeContaId == plano.Id)) <= 0)
+                    {
+                        <td class="text-right">--</td>
+                    }
+                    else if (Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                    {
+                        <td class="text-right">@Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Cheque)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right">- @Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Cheque)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                }
+                @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Outros) > 0)
+                {
+                    if (Model.Count(m => (m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Outros && m.PlanoDeContaId == plano.Id)) <= 0)
+                    {
+                        <td class="text-right">--</td>
+                    }
+                    else if (Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                    {
+                        <td class="text-right">@Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Outros)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right">- @Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Outros)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                }
+                
+                @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Promissória) > 0)
+                {
+                    if (Model.Count(m => (m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Promissória && m.PlanoDeContaId == plano.Id)) <= 0)
+                    {
+                        <td class="text-right">--</td>
+                    }
+                    else if (Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                    {
+                        <td class="text-right">@Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Promissória)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right">- @Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Promissória)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                }
+                @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Pacote) > 0)
+                {
+                    if (Model.Count(m => (m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Pacote && m.PlanoDeContaId == plano.Id)) <= 0)
+                    {
+                        <td class="text-right">--</td>
+                    }
+                    else if (Model.FirstOrDefault(m => m.PlanoDeContaId == plano.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                    {
+                        <td class="text-right">@Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Pacote)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                    else
+                    {
+                        <td class="text-right">- @Model.Where(m => (m.PlanoDeContaId == plano.Id && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Pacote)).Sum(m => m.ValorPago).Value.ToString("C")</td>
+                    }
+                }
+            </tr>
+
+        }
+        <tr>
+            <td></td>
+            @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Dinheiro) > 0)
+            {
+                <th class="text-right">@( (Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Dinheiro)).Sum(m => m.ValorPago) - Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Dinheiro)).Sum(m => m.ValorPago)).Value.ToString("C")) </th>
+            }
+            @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Débito) > 0)
+            {
+                <th class="text-right">@( (Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Débito)).Sum(m => m.ValorPago) - Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Débito)).Sum(m => m.ValorPago)).Value.ToString("C")) </th>
+            }
+            @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Crédito) > 0)
+            {
+                <th class="text-right">@( (Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Crédito)).Sum(m => m.ValorPago) - Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Crédito)).Sum(m => m.ValorPago)).Value.ToString("C")) </th>
+            }
+            @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Boleto) > 0)
+            {
+                <th class="text-right">@( (Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Boleto)).Sum(m => m.ValorPago) - Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Boleto)).Sum(m => m.ValorPago)).Value.ToString("C")) </th>
+            }
+            @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Depósito) > 0)
+            {
+                <th class="text-right">@( (Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Depósito)).Sum(m => m.ValorPago) - Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Depósito)).Sum(m => m.ValorPago)).Value.ToString("C")) </th>
+            }
+            @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Cheque) > 0)
+            {
+                <th class="text-right">@( (Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Cheque)).Sum(m => m.ValorPago) - Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Cheque)).Sum(m => m.ValorPago)).Value.ToString("C")) </th>
+            }
+            @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Outros) > 0)
+            {
+                <th class="text-right">@( (Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Outros)).Sum(m => m.ValorPago) - Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Outros)).Sum(m => m.ValorPago)).Value.ToString("C")) </th>
+            }
+            @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Promissória) > 0)
+            {
+                <th class="text-right">@( (Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Promissória)).Sum(m => m.ValorPago) - Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Promissória)).Sum(m => m.ValorPago)).Value.ToString("C")) </th>
+            }
+            @if (Model.Count(m => m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Pacote) > 0)
+            {
+                <th class="text-right">@( (Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Pacote)).Sum(m => m.ValorPago) - Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.FormaDePagamento == ControleDeSalao.Domain.Enums.Enum.FormaDePagamento.Pacote)).Sum(m => m.ValorPago)).Value.ToString("C")) </th>
+            }
+        </tr>
+    </table>
+}
+else
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Não existem comandas no período selecionado</h3>
+            </td>
+        </tr>
+    </table>
+}

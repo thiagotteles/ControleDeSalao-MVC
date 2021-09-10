@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7C65E490-814D-4206-B135-8CDD2976A8CE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ControleDeSalao.Domain</RootNamespace>
+    <AssemblyName>ControleDeSalao.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\Agenda.cs" />
+    <Compile Include="Entities\Categoria.cs" />
+    <Compile Include="Entities\Cliente.cs" />
+    <Compile Include="Entities\Comanda.cs" />
+    <Compile Include="Entities\ComandaPagamento.cs" />
+    <Compile Include="Entities\ComandaPagamentoParcela.cs" />
+    <Compile Include="Entities\Comissao.cs" />
+    <Compile Include="Entities\ComissaoPersonalizada.cs" />
+    <Compile Include="Entities\Compra.cs" />
+    <Compile Include="Entities\CompraDetalhe.cs" />
+    <Compile Include="Entities\CompraPagamento.cs" />
+    <Compile Include="Entities\CompraPagamentoParcela.cs" />
+    <Compile Include="Entities\Disponibilidade.cs" />
+    <Compile Include="Entities\EmailMarketing.cs" />
+    <Compile Include="Entities\Empresa.cs" />
+    <Compile Include="Entities\Financeiro.cs" />
+    <Compile Include="Entities\Fornecedor.cs" />
+    <Compile Include="Entities\Funcionalidade.cs" />
+    <Compile Include="Entities\HorarioFuncionamento.cs" />
+    <Compile Include="Entities\Mensalidade.cs" />
+    <Compile Include="Entities\Plano.cs" />
+    <Compile Include="Entities\PlanoDeConta.cs" />
+    <Compile Include="Entities\Produto.cs" />
+    <Compile Include="Entities\ProdutoComanda.cs" />
+    <Compile Include="Entities\Profissional.cs" />
+    <Compile Include="Entities\ProfissionalCategoria.cs" />
+    <Compile Include="Entities\Promocao.cs" />
+    <Compile Include="Entities\Servico.cs" />
+    <Compile Include="Entities\ServicoComanda.cs" />
+    <Compile Include="Entities\ServicoPreCadastrado.cs" />
+    <Compile Include="Entities\Usuario.cs" />
+    <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Interfaces\Repositories\IAgendaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IEmailMarketingRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IHorarioFuncionamentoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IPlanoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IMensalidadeRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IComandaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IComandaPagamentoParcelaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ICompraPagamentoParcelaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IComandaPagamentoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IProdutoComandaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IServicoComandaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ICompraPagamentoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ICompraDetalheRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ICompraRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IFornecedorRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IProdutoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IServicoPreCadastradoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IComissaoPersonalizadaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IServicoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IComissaoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\ICategoriaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IFinanceiroRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IProfissionalCategoriaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IDisponibilidadeRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IProfissionalRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IPlanoDeContaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IPromocaoRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IEmpresaRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IUsuarioRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IClienteRepository.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryBase.cs" />
+    <Compile Include="Interfaces\Services\IEmailMarketingService.cs" />
+    <Compile Include="Interfaces\Services\IHorarioFuncionamentoService.cs" />
+    <Compile Include="Interfaces\Services\IPlanoService.cs" />
+    <Compile Include="Interfaces\Services\IMensalidadeService.cs" />
+    <Compile Include="Interfaces\Services\IComandaPagamentoService.cs" />
+    <Compile Include="Interfaces\Services\IComandaPagamentoParcelaService.cs" />
+    <Compile Include="Interfaces\Services\IProdutoComandaService.cs" />
+    <Compile Include="Interfaces\Services\IServicoComandaService.cs" />
+    <Compile Include="Interfaces\Services\IComandaService.cs" />
+    <Compile Include="Interfaces\Services\IAgendaService.cs" />
+    <Compile Include="Interfaces\Services\ICompraPagamentoParcelaService.cs" />
+    <Compile Include="Interfaces\Services\ICompraPagamentoService.cs" />
+    <Compile Include="Interfaces\Services\IComprPagamentoService.cs" />
+    <Compile Include="Interfaces\Services\ICompraDetalheService.cs" />
+    <Compile Include="Interfaces\Services\ICompraService.cs" />
+    <Compile Include="Interfaces\Services\IFornecedorService.cs" />
+    <Compile Include="Interfaces\Services\IProdutoService.cs" />
+    <Compile Include="Interfaces\Services\IServicoPreCadastradoService.cs" />
+    <Compile Include="Interfaces\Services\IComissaoPersonalizadaService.cs" />
+    <Compile Include="Interfaces\Services\IServicoService.cs" />
+    <Compile Include="Interfaces\Services\IComissaoService.cs" />
+    <Compile Include="Interfaces\Services\ICategoriaService.cs" />
+    <Compile Include="Interfaces\Services\IFinanceiroService.cs" />
+    <Compile Include="Interfaces\Services\IProfissionalCategoriaService.cs" />
+    <Compile Include="Interfaces\Services\IDisponibilidadeService.cs" />
+    <Compile Include="Interfaces\Services\IProfissionalService.cs" />
+    <Compile Include="Interfaces\Services\IClienteService.cs" />
+    <Compile Include="Interfaces\Services\IEmpresaService.cs" />
+    <Compile Include="Interfaces\Services\IPlanoDeContaService.cs" />
+    <Compile Include="Interfaces\Services\IPromocaoService.cs" />
+    <Compile Include="Interfaces\Services\IServiceBase.cs" />
+    <Compile Include="Interfaces\Services\IUsuarioService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AgendaService.cs" />
+    <Compile Include="Services\EmailMarketingService.cs" />
+    <Compile Include="Services\HorarioFuncionamentoService.cs" />
+    <Compile Include="Services\PlanoService.cs" />
+    <Compile Include="Services\MensalidadeService.cs" />
+    <Compile Include="Services\ComandaService.cs" />
+    <Compile Include="Services\ComandaPagamentoParcelaService.cs" />
+    <Compile Include="Services\CompraPagamentoParcelaService.cs" />
+    <Compile Include="Services\ComandaPagamentoService.cs" />
+    <Compile Include="Services\ProdutoComandaService.cs" />
+    <Compile Include="Services\ServicoComandaService.cs" />
+    <Compile Include="Services\CompraPagamentoService.cs" />
+    <Compile Include="Services\CompraDetalheService.cs" />
+    <Compile Include="Services\CompraService.cs" />
+    <Compile Include="Services\FornecedorService.cs" />
+    <Compile Include="Services\ProdutoService.cs" />
+    <Compile Include="Services\ServicoPreCadastradoService.cs" />
+    <Compile Include="Services\ComissaoPersonalizadaService.cs" />
+    <Compile Include="Services\ServicoService.cs" />
+    <Compile Include="Services\DisponibilidadeService.cs" />
+    <Compile Include="Services\ComissaoService.cs" />
+    <Compile Include="Services\CategoriaService.cs" />
+    <Compile Include="Services\FinanceiroService.cs" />
+    <Compile Include="Services\ProfissionalCategoriaService.cs" />
+    <Compile Include="Services\ProfissionalService.cs" />
+    <Compile Include="Services\PlanoDeContaService.cs" />
+    <Compile Include="Services\PromocaoService.cs" />
+    <Compile Include="Services\EmpresaService.cs" />
+    <Compile Include="Services\UsuarioService.cs" />
+    <Compile Include="Services\ClienteService.cs" />
+    <Compile Include="Services\ServiceBase.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

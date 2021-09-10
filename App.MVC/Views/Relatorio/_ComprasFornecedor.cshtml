@@ -1,0 +1,46 @@
+﻿@model IEnumerable<App.MVC.ViewModels.CompraViewModel>
+
+
+@{
+    Layout = "../Shared/_LayoutImpressao.cshtml";
+}
+
+@if (Model.Any())
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Compras do fornecedor</h3>
+            </td>
+        </tr>
+    </table>
+    <hr/>
+    foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-xs-3 col-md-3 text-nowrap"><strong>Compra dia: @Html.DisplayFor(modelitem => item.SData)</strong></div>
+            <div class="col-xs-6 col-md-6 text-nowrap"><strong>Fornecedor: @Html.DisplayFor(modelitem => item.Fornecedor.Nome)</strong></div>
+            <div class="col-xs-3 col-md-3 text-nowrap text-right"><strong>Valor total: @Html.DisplayFor(modelitem => item.ValorTotal)</strong></div>
+
+            @foreach (var prd in item.Detalhes)
+            {
+                <div class="col-xs-3 col-md-3 text-nowrap text-right">@Html.DisplayFor(modelitem => prd.Quantidade) @Html.DisplayFor(modelitem => prd.Produto.Unidade)</div>
+                <div class="col-xs-6 col-md-6 text-nowrap">@Html.DisplayFor(modelitem => prd.Produto.Descricao)</div>
+                <div class="col-xs-3 col-md-3 text-nowrap text-right">@Html.DisplayFor(modelitem => prd.ValorTotal)</div>
+            }
+        </div>
+        
+    <hr/>
+    }
+    <div class="col-xs-12 col-md-12 text-right"><h3>Total gasto no período: @Model.Sum(m => m.ValorTotal).ToString("C")</h3></div>
+}
+else
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Não existem compras para este fornecedor neste período</h3>
+            </td>
+        </tr>
+    </table>
+}

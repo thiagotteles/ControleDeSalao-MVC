@@ -1,0 +1,36 @@
+﻿@model dynamic
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+@Styles.Render("~/Content/bootstrap-material-datetimepicker")
+@Scripts.Render("~/bundles/bootstrap-material-datetimepicker")
+
+<div class="page-content">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <span class="caption-subject font-blue-sharp bold uppercase">Estoque de produtos</span>
+                <span class="caption-helper">Relatório que mostra a quantidade no estoque de cada produto</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                @using (Html.BeginForm("ProdutoEstoque", "Relatorio", FormMethod.Post, new { target = "_blank" }))
+                {
+                    <div class="col-xs-4 col-md-8 text-left">
+                        <br />
+                        <br />
+                        <input type="submit" value="Gerar Relatório" class="btn blue" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/Relatorios")
+

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<App.MVC.ViewModels.ComissaoViewModel>
+
+@{
+    Layout = "../Shared/_LayoutImpressao.cshtml";
+}
+
+@if (Model.Any())
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Comissões dos profissionais</h3>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Data</th>
+            <th>Descrição</th>
+            <th>Status</th>
+            <th class="text-right">Valor</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelitem => item.SDataLancamento)</td>
+                <td>@Html.DisplayFor(modelitem => item.Descricao)</td>
+                <td>@Html.DisplayFor(modelitem => item.Status)</td>
+                <td class="text-right">@Html.DisplayFor(modelitem => item.Valor)</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+        <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Não existem comissões para este profissional</h3>
+            </td>
+        </tr>
+    </table>
+}

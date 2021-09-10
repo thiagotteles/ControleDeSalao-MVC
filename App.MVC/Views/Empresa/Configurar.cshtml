@@ -1,0 +1,99 @@
+﻿@using App.MVC.ViewModels
+@using ControleDeSalao.Infra.Cross.Security
+@model EmpresaViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Scripts.Render("~/bundles/mascaras")
+<div class="page-content">
+
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <form action="/Empresa/Configurar" method="post">
+                @Html.HiddenFor(m => m.Id, new { @id = "Id" })
+                @Html.HiddenFor(m => m.Latitude, new { @name = "txtLatitude", @id = "txtLatitude" })
+                @Html.HiddenFor(m => m.Longitude, new { @name = "txtLongitude", @id = "txtLongitude" })
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.PlanoId)
+                @Html.HiddenFor(m => m.DataBloqueio)
+                @Html.HiddenFor(m => m.DataAlerta)
+                @Html.HiddenFor(m => m.DiaParaVencimento)
+                @Html.HiddenFor(m => m.CodigoPromocional)
+                @Html.HiddenFor(m => m.SmsAgenda)
+                @Html.HiddenFor(m => m.SmsAniversario)
+                <div class="portlet light portlet-fit portlet-form bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class=" icon-layers font-blue-dark"></i>
+                            <span class="caption-subject font-blue-dark sbold uppercase">Meu Salão</span>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" class="btn btn-circle btn-icon-only btn-default">
+                                <i class="fa fa-save"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="form-body row">
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input">
+                                    @Html.TextBoxFor(model => model.Nome, new { @class = "form-control ", @required = "required" })
+                                    <label>Nome do Salão</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-md-line-input ">
+                                    @Html.TextBoxFor(model => model.Celular, new { @class = "form-control", onkeyup = "mascara(this, mtel);", maxlength = "15" })
+                                    <label class="control-label">Celular</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-md-line-input ">
+                                    @Html.TextBoxFor(model => model.Telefone, new { @class = "form-control", onkeyup = "mascara(this, mtel);", maxlength = "15" })
+                                    <label class="control-label">Telefone</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group form-md-line-input">
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control ", @disabled = "disabled" })
+                                    <label>Email do administrador</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-md-line-input">
+                                    @Html.TextBoxFor(model => model.NomeResponsavel, new { @class = "form-control ", @required = "required" })
+                                    <label>Nome do responsável</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group form-md-line-input">
+                                    @Html.TextBoxFor(model => model.CPFResponsavel, new { @class = "form-control ", @required = "required", maxlength = "14", onblur = "ValidarCPF(this)", onkeyup = "mascara(this, cpf)" })
+                                    <label>CPF do responsável</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group form-md-line-input">
+                                    @Html.TextBoxFor(model => model.Endereco, new { @class = "form-control " })
+                                    <label>Endereço completo do Salão</label>
+                                </div>
+                            </div>
+                            <br />
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("MMSIS"))
+                                    {
+                                        <input type="submit" class="btn blue" value="Salvar" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

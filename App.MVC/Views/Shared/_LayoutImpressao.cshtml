@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="~/assets/global/css/print.css" rel="stylesheet" />
+    @Styles.Render("~/Content/bootstrap")
+    <link href="~/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+
+<body class="container">
+    <div id="header" class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                <li role="presentation" class="active"><a href="javascript:myFunction()">Imprimir</a></li>
+                <li role="presentation"><a href="javascript:close()">Fechar tela de impressão</a></li>
+            </ul>
+        </nav>
+        <img src="~/assets/layouts/layout/img/logo-default.png" style="width: 200px" />
+    </div>
+
+    @RenderBody()
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        function myFunction() {
+            document.getElementById('header').style.display = 'none';
+            window.print();
+        }
+    </script>
+</body>
+
+</html>

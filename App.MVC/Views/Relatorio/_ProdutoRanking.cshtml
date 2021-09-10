@@ -1,0 +1,43 @@
+﻿@model IOrderedEnumerable<App.MVC.ViewModels.Relatorios.RelProdutoRanking>
+
+
+@{
+    Layout = "../Shared/_LayoutImpressao.cshtml";
+}
+
+@if (Model.Any())
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Melhores Produtos</h3>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table table-striped">
+        <tr>
+            <th>Produto</th>
+            <th class="text-center">Qtd Vendido</th>
+            <th class="text-right">Valor Vendido</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelitem => item.NomeProduto)</td>
+                <td class="text-center text-nowrap">@Html.DisplayFor(modelitem => item.Quantidade) @Html.DisplayFor(modelitem => item.Unidade)</td>
+                <td class="text-right">@Html.DisplayFor(modelitem => item.Valor)</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <table style="width: 100%">
+        <tr align="center">
+            <td>
+                <h3>Não foram vendidos produtos no período selecionado</h3>
+            </td>
+        </tr>
+    </table>
+}

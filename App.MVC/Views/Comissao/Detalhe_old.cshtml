@@ -1,0 +1,142 @@
+﻿@using App.MVC.ViewModels
+@model ProfissionalViewModel
+
+@{
+    ViewBag.Title = "Detalhe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+@Styles.Render("~/Content/bootstrap-material-datetimepicker")
+@Scripts.Render("~/bundles/bootstrap-material-datetimepicker")
+@Styles.Render("~/Content/typeahead")
+@Scripts.Render("~/bundles/typeahead")
+@Styles.Render("~/Content/bootstrap-select")
+@Scripts.Render("~/bundles/bootstrap-select")
+@Scripts.Render("~/bundles/Comanda-Detalhe")
+<div class="page-content">
+    @Html.HiddenFor(m => m.Id, new { @id = "Id" })
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="/Home">Home</a>
+            <i class="fa fa-home"></i>
+        </li>
+        <li>
+            <a href="/Comissao/">Comissões</a>
+            <i class="fa fa-percent"></i>
+        </li>
+        <li>
+            <span class="active">Comissões do profissional</span>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+
+            <div class="portlet light portlet-fit portlet-form bordered">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class=" icon-layers font-blue-dark"></i>
+                        <span class="caption-subject font-blue-dark sbold uppercase">Comissões do(a) @Model.Nome</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="form-body row">
+
+                        <div class="col-md-12">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th class="col-xs-1 col-md-1">
+                                        <div class="md-checkbox">
+                                            <input type="checkbox" id="checkall" class=" md-check">
+
+                                            <label for="checkall">
+                                                <span></span>
+                                                <span class="check"></span>
+                                                <span class="box" id="lblcheckall"></span>
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th class="col-xs-6 col-md-6">Descrição</th>
+                                    <th class="col-xs-2 col-md-2">Data</th>
+                                    <th class="col-xs-3 col-md-3 text-right">Valor</th>
+                                </tr>
+                                @foreach (var item in Model.Comissoes)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="md-checkbox">
+                                                @Html.CheckBoxFor(model => item.Selecionada, new { @class = "  md-check", @id = item.Id })
+                                                <label for="@item.Id">
+                                                    <span></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span> 
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @item.Descricao
+                                        </td>
+                                        <td>
+                                            @item.SDataLancamento
+                                        </td>
+                                        <td class=" text-right">
+                                            @item.Valor.Value.ToString("C")
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+
+                        <div class="col-md-12 col-xs-12">
+                            <div class="col-md-3 col-xs-3">
+                                <div class="form-group form-md-line-input">
+                                    <div class="input-icon left">
+                                        <br />
+                                        <a class="btn yellow-lemon btnModal" style="cursor: pointer" data-toggle="modal" href="#modalFaturar">
+                                            <i class="fa fa-dollar"></i>
+                                            Receber
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-xs-3">
+                                <div class="form-group form-md-line-input">
+                                    <div class="input-icon left">
+                                        <strong style="font: 'Open Sans', sans-serif 14px; color: #9c9999">TOTAL SELECIONADAS</strong>
+                                        <input type="text" disabled="disabled" id="subtotal" class="form-control" value="@(Model.Comissoes.Where(m => m.Selecionada).Sum(m=>m.Valor))" style="font: 20px bold" />
+                                        <i>R$</i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-3">
+                                <div class="form-group form-md-line-input">
+                                    <div class="input-icon left">
+                                        <strong style="font: 'Open Sans', sans-serif 14px; color: #9c9999">TOTAL ABERTO</strong>
+                                        <input type="text" disabled="disabled" id="subtotal" class="form-control" value="@(Model.Comissoes.Sum(m=>m.Valor))" style="font: 20px bold" />
+                                        <i>R$</i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="/Comissao/" class="btn default">Voltar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#checkall").click(function () {
+        $(".md-check").prop('checked', $(this).prop("checked"));
+    });
+
+</script>

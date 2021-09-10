@@ -1,0 +1,59 @@
+﻿@using Enum = ControleDeSalao.Domain.Enums.Enum
+@model App.MVC.ViewModels.FinanceiroViewModel
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (Html.BeginForm())
+        {
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                @if (Model.Tipo == Enum.TipoCreditoDebito.Crédito)
+                {
+                    <h4 class="modal-title">Receber</h4>
+                }
+                else
+                {
+                    <h4 class="modal-title">Pagar</h4>
+                }
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-md-line-input ">
+                            @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control", disabled = "disabled" })
+                            <label for="Descricao">Descrição</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="form-group form-md-line-input ">
+                            <div class="input-icon left">
+                                <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Valor</label>
+                                @Html.TextBoxFor(model => model.SValor, null, new { @class = "form-control", @onkeyup = "mascara(this, moeda);" })
+                                <i>R$</i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xs-6">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <label for="SData" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Data</label>
+                            @Html.TextBoxFor(model => model.SDtVcto, DateTime.Today.ToString("dd/MM/yyyy"), new { @class = "form-control datepicker", @onkeyup = "mascara(this, data);", onblur = "validaData(this,this.value)", maxlength = "10" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal" id="btnCancelar">Cancelar</button>
+                @if (Model.Tipo == Enum.TipoCreditoDebito.Crédito)
+                {
+                    <input type="submit" class="btn blue" value="Receber" />
+                }
+                else
+                {
+                    <input type="submit" class="btn blue" value="Pagar" />
+                }
+            </div>
+        }
+    </div>
+</div>

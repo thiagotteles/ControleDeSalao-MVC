@@ -1,0 +1,196 @@
+﻿@model App.MVC.ViewModels.ComandaPagamentoViewModel
+
+@{
+    ViewBag.Title = "Visualizar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content">
+    @Html.HiddenFor(m => m.Id, new { @id = "Id" })
+    <ul class="page-breadcrumb breadcrumb">
+        <li>
+            <a href="/Home">Home</a>
+            <i class="fa fa-home"></i>
+        </li>
+        <li>
+            <a href="/Comanda/">Comandas</a>
+            <i class="fa fa-credit-card"></i>
+        </li>
+        <li>
+            <span class="active">Detalhe da Comanda</span>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <form action="/Comanda/Salvar" method="post">
+                <div class="portlet light portlet-fit portlet-form bordered">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class=" icon-layers font-blue-dark"></i>
+                            <span class="caption-subject font-blue-dark sbold uppercase">Detalhe da comanda</span>
+                        </div>
+                        <div class="actions">
+                            <button type="submit" class="btn btn-circle btn-icon-only btn-default">
+                                <i class="fa fa-save"></i>
+                            </button>
+                            <a class="btn btn-circle btn-icon-only btn-default" href="/Comanda">
+                                <i class="fa fa-backward"></i>
+                            </a>
+                            <a class="btn btn-circle btn-icon-only red excluir">
+                                <i class="icon-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="form-body row">
+                            <div class="col-md-5 col-xs-4">
+                                <div class="form-group form-md-line-input">
+                                    <label for="NomeCliente" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Nome do Cliente</label>
+
+                                    @Html.TextBoxFor(model => model.Comanda.Cliente.Nome, new { @class = "form-control ", @required = "required", @disabled = "disabled" })
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-xs-4">
+                                <div class="form-group form-md-line-input">
+                                    <label for="NomeProfissional" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Profissional</label>
+                                    <select class="form-control" id="NomeProfissional" name="NomeProfissional">
+                                        <option selected>@(Model.Comanda.Profissional != null ? Model.Comanda.Profissional.Nome : string.Empty)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-xs-4">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <label for="SData" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Data</label>
+                                    @Html.TextBoxFor(model => model.Comanda.Data, new { @class = "form-control", @required = "required", @disabled = "disabled" })
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="col-md-12 col-xs-12">
+                                @if (Model.Comanda.Servicos.Count > 0)
+                                {
+                                    <br />
+                                    <table class="table table-hover table-borderless table-striped">
+                                        <tr>
+                                            <th class="col-xs-7 col-md-7">@Html.Label("Serviços")</th>
+                                            <th class="col-xs-3 col-md-3 text-right">@Html.Label("Valor")</th>
+                                        </tr>
+                                        @for (int i = 0; i < Model.Comanda.Servicos.Count; i++)
+                                        {
+                                            <tr>
+                                                <td class="col-xs-6 col-md-6">
+                                                    @Html.DisplayFor(m => Model.Comanda.Servicos[i].Servico.Descricao)
+                                                </td>
+                                                <td class="col-xs-3 col-md-3 text-right">
+                                                    @Html.DisplayFor(m => Model.Comanda.Servicos[i].Valor)
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr style="border-top: solid 2pt">
+                                            <td></td>
+                                            <td class="text-right">
+                                                <h5 style="color: black; font-weight: bold" class="fadeInDown">Total:@Model.Comanda.Servicos.Sum(m => m.Valor)</h5>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                            <br />
+                            <div class="col-md-12 col-xs-12">
+                                @if (Model.Comanda.Produtos.Count > 0)
+                                {
+                                    <br />
+                                    <table class="table table-hover table-borderless table-striped">
+                                        <tr>
+                                            <th class="col-xs-4 col-md-4">@Html.Label("Produtos")</th>
+                                            <th class="col-xs-2 col-md-2 text-center">@Html.Label("Quantidade")</th>
+                                            <th class="col-xs-2 col-md-2 text-right">@Html.Label("Valor Unitário")</th>
+                                            <th class="col-xs-2 col-md-2 text-right">@Html.Label("Valor Total")</th>
+                                        </tr>
+                                        @for (int i = 0; i < Model.Comanda.Produtos.Count; i++)
+                                        {
+                                            <tr>
+                                                <td class="col-xs-4 col-md-4">
+                                                    @Html.DisplayFor(m => Model.Comanda.Produtos[i].Produto.Descricao)
+                                                </td>
+                                                <td align="right" style="border: none;" class="col-xs-2 col-md-2 text-center">
+                                                    <table style="border: none" align="center">
+                                                        <tr style="border: none">
+                                                            <td>
+                                                                @Html.DisplayFor(m => Model.Comanda.Produtos[i].Quantidade)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(m => Model.Comanda.Produtos[i].Produto.Unidade)
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                </td>
+                                                <td class="col-xs-2 col-md-2 text-right">
+                                                    @Html.DisplayFor(m => Model.Comanda.Produtos[i].ValorProduto)
+                                                </td>
+                                                <td class="col-xs-2 col-md-2 text-right">
+                                                    @Html.DisplayFor(m => Model.Comanda.Produtos[i].ValorTotal)
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr style="border-top: solid 2pt">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="text-right">
+                                                <h5 style="color: black; font-weight: bold" class="fadeInDown">Total:@Model.Comanda.Produtos.Sum(m => m.ValorTotal)</h5>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                }
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="col-md-3 col-xs-3">
+                                </div>
+                                <div class="col-md-3 col-xs-3">
+                                    <div class="form-group form-md-line-input">
+                                        <div class="input-icon left">
+                                            <strong style="font: 'Open Sans', sans-serif 14px; color: #9c9999">SUBTOTAL</strong>
+                                            <input type="text" disabled="disabled" id="subtotal" class="form-control" value="@(Model.Comanda.ValorTotal)" style="font: 20px bold" />
+                                            <i>R$</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-3">
+                                    <div class="form-group form-md-line-input">
+                                        <div class="input-icon left">
+                                            <strong style="font: 'Open Sans', sans-serif 14px; color: #9c9999">DESCONTO</strong>
+                                            @Html.TextBoxFor(m => m.Comanda.ValorDesconto, new { @class = "form-control", @Style = "font: 20px bold", @onkeyup = "mascara(this, moeda);", @id = "ValorDesconto", @disabled = "disabled" })
+                                            <i>R$</i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-3">
+                                    <div class="form-group form-md-line-input">
+                                        <div class="input-icon left">
+                                            <strong style="font: 'Open Sans', sans-serif 14px; color: #9c9999">VALOR TOTAL</strong>
+                                            <input type="text" disabled="disabled" id="ValorTotal" class="form-control" value="@(Model.Comanda.ValorTotal)" style="font: 20px bold" />
+                                            <i>R$</i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="javascript:window.history.go(-1)" class="btn default">Voltar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

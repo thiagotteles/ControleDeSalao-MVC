@@ -1,0 +1,64 @@
+﻿@model App.MVC.ViewModels.FinanceiroViewModel
+
+@using (Html.BeginForm("Despesa", "Financeiro"))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group form-md-line-input form-md-floating-label ">
+
+                @Html.TextBoxFor(model => model.Descricao, new { @class = "form-control", @required = "required" })
+                <label for="Descricao">Descrição</label>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group form-md-line-input ">
+                <div class="input-icon left">
+                    <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Valor</label>
+                    @Html.TextBoxFor(model => model.Valor, null, new { @class = "form-control", @onkeyup = "mascara(this, moeda);", @required = "required" })
+                    <i>R$</i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <label for="SData" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Vencimento</label>
+                @Html.TextBoxFor(model => model.SDtVcto, DateTime.Today.ToString("dd/MM/yyyy"), new { @class = "form-control datepicker", @onkeyup = "mascara(this, data);", onblur = "validaData(this,this.value)", maxlength = "10", @required = "required" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group form-md-line-input ">
+                <div class="input-icon right">
+                    <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Qtd. Parcelas</label>
+                    @Html.TextBoxFor(model => model.QtdMeses, "1", new { @class = "form-control", @onkeyup = "mascara(this, soNumeros);", maxlength = "3", @required = "required" })
+                    <i>(X)</i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <label for="SData" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Forma de Pagamento.</label>
+                @Html.EnumDropDownListFor(m => m.FormaDePagamento, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <label for="SData" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Plano de conta</label>
+                @Html.DropDownListFor(m => m.PlanoDeContaId, (List<SelectListItem>)Session["fin_plDeContasDeb"], new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-12 col-xs-12">
+            <div class="form-group form-md-line-input">
+                <label for="NomeCliente" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Quem irá receber?</label>
+                @Html.TextBoxFor(model => model.NomeQuem, new { @class = "form-control ", @placeholder = "Digite o nome de quem irá receber" })
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="modal-footer">
+        <button type="button" class="btn dark btn-outline" data-dismiss="modal" id="btnCancelar">Cancelar</button>
+        <button type="submit" class="btn blue">Salvar Despesa</button>
+    </div>
+}
+
+

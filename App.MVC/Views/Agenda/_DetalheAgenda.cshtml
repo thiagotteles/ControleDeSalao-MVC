@@ -1,0 +1,107 @@
+﻿@using App.MVC.ViewModels
+@model AgendaViewModel
+
+@Styles.Render("~/Content/typeahead")
+@Scripts.Render("~/bundles/typeahead")
+@Scripts.Render("~/bundles/mascaras")
+@Styles.Render("~/Content/bootstrap-timepicker")
+@Scripts.Render("~/bundles/bootstrap-timepicker")
+<script src="~/assets/pages/scripts/components-date-time-pickers.min.js"></script>
+@Styles.Render("~/Content/bootstrap-select")
+@Scripts.Render("~/bundles/bootstrap-select")
+@Styles.Render("~/Content/bootstrap-switch")
+@Scripts.Render("~/bundles/bootstrap-switch")
+
+
+@using (Html.BeginForm("Detalhe", "Agenda"))
+{
+    @Html.HiddenFor(m => m.Parametros, new { @id = "Parametros", @name = "Parametros" })
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group form-md-line-input">
+                <label for="NomeCliente" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Nome do Cliente</label>
+                <input type="text" class="form-control" id="NomeCliente" name="NomeCliente" required>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group form-md-line-input ">
+                <label for="CelularCliente" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Celular do Cliente</label>
+                <input type="text" class="form-control" id="CelularCliente" name="CelularCliente" onkeyup="mascara(this, mtel);" maxlength="15" placeholder="">
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="NomeServico" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Serviço</label>
+                <select class="bs-select form-control" data-live-search="true" data-size="8" id="NomeServico" name="NomeServico" required>
+                    <option value=""></option>
+                    @foreach (var serv in (IEnumerable<ServicoViewModel>)Session["TodosServicos"])
+                    {
+                        <option>@serv.Descricao</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-6 col-md-6">
+            <div class="form-group form-md-line-input">
+                <div class="input-group">
+                    <input type="text" class="form-control timepicker timepicker-24" id="Duracao" name="Duracao" value="0:00" required>
+                    <span class="input-group-btn">
+                        <button class="btn default" type="button">
+                            <i class="fa fa-clock-o"></i>
+                        </button>
+                    </span>
+                    <label for="duracao">Duração</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <div class="form-group form-md-line-input form-md-floating-label ">
+                <div class="input-icon right">
+                    <input type="text" class="form-control" id="NovaComissao" name="NovaComissao" style="display: none;" onkeyup="mascara(this, soNumeros);">
+                    <label for="NovaComissao" id="lblComissao" style="display: none;">Comissão do profissional</label>
+                    <span class="help-block">% para o profissional...</span>
+                    <i id="iconComissao" style="display: none;">%</i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-6 col-md-6">
+            <div class="form-group form-md-line-input ">
+                <input type="text" class="form-control" id="Valor" name="Valor" required onkeyup="mascara(this, moeda);">
+                <label for="Valor">Valor em R$</label>
+                <span class="help-block">Valor que você cobra pelo serviço...</span>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-6" style="vertical-align: bottom !important">
+            <br />
+            <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Deseja enviar SMS?</label>
+            <input type="checkbox" class="make-switch" data-on-text="&nbsp;Sim&nbsp;&nbsp;" data-off-text="&nbsp;Não&nbsp;" value="false" disabled="@(ViewBag.QtdSMS <= 0 ? true : false)">
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="form-group form-md-line-input form-md-floating-label">
+                <textarea class="form-control" rows="3" id="Observacao" name="Observacao"></textarea>
+                <label for="Observacao">Observação</label>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="modal-footer">
+        <button type="button" class="btn dark btn-outline" data-dismiss="modal" id="btnCancelar">Cancelar</button>
+        <button type="submit" class="btn blue">Criar Agenda</button>
+    </div>
+    <input type="hidden" id="EnviarSMS" name="EnviarSMS">
+    @Scripts.Render("~/bundles/Agenda-Detalhe")
+}

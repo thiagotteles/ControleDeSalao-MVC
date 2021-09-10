@@ -1,0 +1,77 @@
+﻿@model App.MVC.ViewModels.UsuarioViewModel
+
+@*@Scripts.Render("~/bundles/jquery.validate")*@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Usuário</h4>
+        </div>
+        @using (Html.BeginForm("Detalhe", "Usuario", FormMethod.Post))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.EmpresaId)
+            @Html.HiddenFor(m => m.Login)
+            
+            <div class="modal-body">
+                <div class="row">
+                    @if (Model.Id > 0)
+                    {
+                        @Html.HiddenFor(m => m.Email)
+                        <div class="col-md-8">
+                            <div class="form-group form-md-line-input ">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @required = "required", @type = "email", @disabled="disabled" })
+                                <label class="control-label">Email<span class="required"> * </span></label>
+                                <span class="help-block">Email que será usado para o login</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input ">
+                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @type = "password" })
+                                <label class="control-label">Senha</label>
+                                <span class="help-block">Alterar a senha do usuário</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-8">
+                            <div class="form-group form-md-line-input ">
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @required = "required", @type = "email" })
+                                <label class="control-label">Email<span class="required"> * </span></label>
+                                <span class="help-block">Email que será usado para o login</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group form-md-line-input ">
+                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", @required = "required", @type = "password" })
+                                <label class="control-label">Senha<span class="required"> * </span></label>
+                                <span class="help-block">Senha deste usuário</span>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-4" style="margin-top: 5px">
+                        <div class="form-group form-md-line-input">
+                            <label for="SData" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Usuário é um profissional?</label>
+                            @Html.DropDownListFor(m => m.ProfissionalId, (List<SelectListItem>)Session["lstUsuProfissionais"], new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-8" style="margin-top: 5px">
+                        <br />
+                        <br />
+                        <span class="label label-danger"> Nota! </span>
+                        <span class="font-red-soft"> Se informar que o usuário é um profissional, este usuário ao entrar no sistema verá somenta as agendas dele. </span>
+                    </div>
+                </div>
+                <br />
+                <div>
+                    @Html.Partial("Direitos", Model)
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal" id="btnCancelar">Cancelar</button>
+                    <button type="submit" class="btn blue">Salvar usuário</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

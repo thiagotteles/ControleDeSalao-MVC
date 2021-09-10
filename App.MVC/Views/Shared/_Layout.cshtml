@@ -1,0 +1,483 @@
+﻿@using ControleDeSalao.Infra.Cross.Security
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<!--<![endif]-->
+<html lang="pt-br">
+<head>
+<script>
+(function (i, s, o, g, r, a, m) {
+i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+(i[r].q = i[r].q || []).push(arguments)
+}, i[r].l = 1 * new Date(); a = s.createElement(o),
+m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+ga('create', 'UA-75840667-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<meta charset="utf-8" />
+<title>Controle de Salão</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta content="" name="description" />
+<meta content="" name="author" />
+
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
+<link href="~/assets/layouts/layout/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
+<link href="~/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+<link href="~/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/assets/global/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+<script src="~/assets/global/plugins/sweetalert/sweetalert.min.js"></script>
+
+@Styles.Render("~/Content/bootstrap")
+@Styles.Render("~/Content/components-md")
+@Styles.Render("~/Content/plugins-md")
+@Styles.Render("~/Content/layout")
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/cookie")
+@Scripts.Render("~/bundles/bootstrap-hover-dropdown")
+@Scripts.Render("~/bundles/bootstrap-switch")
+@Scripts.Render("~/bundles/app")
+@Scripts.Render("~/bundles/layout")
+@Scripts.Render("~/bundles/demo")
+<script src="~/assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="~/assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+<script src="~/assets/global/plugins/bootstrap-sessiontimeout/bootstrap-session-timeout.min.js"></script>
+<script>
+var SessionTimeout = function () {
+var handlesessionTimeout = function () {
+$.sessionTimeout({
+title: 'Sessão expirando',
+message: 'Sua sessão está prestes a expirar.',
+redirUrl: '/Usuario/Lock',
+logoutUrl: '/Usuario/Logout',
+warnAfter: 1740000,
+redirAfter: 1800000,
+stayConnectedBtn: 'Mantenha-me conectado',
+countdownMessage: 'sua sessão acaba em {timer} segundos.',
+countdownBar: true
+});
+};
+
+return {
+init: function () {
+handlesessionTimeout();
+}
+};
+}();
+
+jQuery(document).ready(function () {
+SessionTimeout.init();
+});
+
+var tryNumber = 0;
+jQuery('input[type=submit]').click(function (event) {
+var self = $(this);
+
+if (self.closest('form').valid()) {
+if (tryNumber > 0) {
+tryNumber++;
+return false;
+}
+else {
+tryNumber++;
+}
+};
+});
+</script>
+
+
+
+
+<link rel="shortcut icon" href="~/favicon.ico" />
+</head>
+<body class="page-container-bg-solid page-header-fixed page-sidebar-closed-hide-logo page-md">
+<div class="page-header navbar navbar-fixed-top">
+<div class="page-header-inner ">
+<div class="page-logo">
+<a href="/Home/">
+<img src="~/assets/layouts/layout/img/logo-light.png" alt="logo" class="logo-default" style="height: 45px; margin-top: 15px" />
+</a>
+<div class="menu-toggler sidebar-toggler">
+</div>
+</div>
+<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse"> </a>
+
+<div class="page-actions">
+<div class="btn-group">
+<button type="button" class="btn red-haze btn-sm dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+<span class="hidden-sm hidden-xs">Ação Rápida&nbsp;</span>
+<i class="fa fa-angle-down"></i>
+</button>
+<ul class="dropdown-menu" role="menu">
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SAGE"))
+{
+<li>
+<a href="/Agenda/">
+<i class="icon-calendar"></i> Nova agenda
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SCOM"))
+{
+<li>
+<a href="/Comanda/Novo/">
+<i class="icon-credit-card"></i> Nova comanda
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SFIN"))
+{
+<li>
+<a href="/Financeiro/">
+<i class="fa fa-dollar"></i> Ver Finanças
+</a>
+</li>
+}
+<li class="divider"> </li>
+
+</ul>
+</div>
+</div>
+<div class="page-top">
+<div class="top-menu">
+<ul class="nav navbar-nav pull-right">
+<li class="dropdown dropdown-extended dropdown-notification dropdown-dark tooltips" id="downloadAtalho">
+<a href="/Home/DownloadAtalho" class="dropdown-toggle" data-placement="bottom" data-original-title="Download do atalho do sistema">
+<i class="fa fa-download"></i>
+</a>
+</li>
+<li class="dropdown dropdown-user dropdown-dark">
+<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+<span class="username username-hide-on-mobile"> @Cookies.LoginUsuarioLogado </span>
+<img alt="" class="img-circle" src="@(Cookies.UrlAvatarUsuarioLogado)" />
+</a>
+<ul class="dropdown-menu dropdown-menu-default">
+<li>
+<a href="/Usuario/Perfil">
+<i class="icon-user"></i> Meu Perfil
+</a>
+</li>
+<li>
+<a href="/Agenda/">
+<i class="icon-calendar"></i> Minha Agenda
+</a>
+</li>
+<li class="divider"> </li>
+<li>
+<a href="/Usuario/Logout">
+<i class="icon-key"></i> Sair
+</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="clearfix"> </div>
+<div class="page-container">
+<div class="page-sidebar-wrapper">
+<div class="page-sidebar navbar-collapse collapse">
+<ul class="page-sidebar-menu   " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+<li class="nav-item  ">
+<a href="/Home/" class="nav-link nav-toggle">
+<i class="fa fa-home"></i>
+<span class="title">Inicio</span>
+</a>
+</li>
+<li class="heading" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">
+<h3 class="uppercase">Operacional</h3>
+</li>
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SAGE"))
+{
+<li class="nav-item  " id="menuAgenda">
+<a href="/Agenda/" class="nav-link nav-toggle">
+<i class="icon-calendar"></i>
+<span class="title">Agenda</span>
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SCOM"))
+{
+<li class="nav-item  " id="menuComanda">
+<a href="/Comanda/" class="nav-link nav-toggle">
+<i class="icon-credit-card"></i>
+<span class="title">Comanda</span>
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SFIN"))
+{
+<li class="nav-item  " id="menuFinanceiro">
+<a href="/Financeiro/" class="nav-link nav-toggle">
+<i class="fa fa-dollar"></i>
+<span class="title">Financeiro</span>
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SPRFC"))
+{
+<li class="nav-item  " id="menuComissoes">
+<a href="/Comissao/" class="nav-link nav-toggle">
+<i class="fa fa-percent"></i>
+<span class="title">Comissões</span>
+</a>
+</li>
+}
+<li class="heading" style="-webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;">
+<h3 class="uppercase">Gerencial</h3>
+</li>
+<li class="nav-item  " id="menuMeuSalao">
+<a href="/Home/" class="nav-link nav-toggle">
+<i class="fa fa-bank"></i>
+<span class="title">Meu Salão</span>
+<span class="arrow"></span>
+</a>
+<ul class="sub-menu">
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SCLI"))
+{
+<li class="nav-item  ">
+<a href="/Cliente/" class="nav-link ">
+<span class="title">Meus Clientes</span>
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SSER"))
+{
+<li class="nav-item  ">
+<a href="/Servico/" class="nav-link ">
+<span class="title">Meus Serviços</span>
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SPRF"))
+{
+<li class="nav-item  ">
+<a href="/Profissional/" class="nav-link ">
+<span class="title">Meus Profissionais</span>
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SPRO"))
+{
+<li class="nav-item  ">
+<a href="/Produto/" class="nav-link ">
+<span class="title">Meus Produtos</span>
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SUSU"))
+{
+<li class="nav-item  ">
+<a href="/Usuario/" class="nav-link ">
+<span class="title">Meus Usuários</span>
+</a>
+</li>
+}
+</ul>
+</li>
+<li class="nav-item  " id="menuRelatorios">
+<a href="javascript:;" class="nav-link nav-toggle">
+<i class="icon-printer"></i>
+<span class="title">Relatórios</span>
+<span class="arrow"></span>
+</a>
+<ul class="sub-menu">
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SRFIN"))
+{
+<li class="nav-item  ">
+<a href="javascript:;" class="nav-link nav-toggle">
+<span class="title">Financeiro</span>
+<span class="arrow"></span>
+</a>
+<ul class="sub-menu">
+@if (Cookies.DireitoUsuarioLogado.Contains("RFFEC"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/Fechamento" class="nav-link "> Fechamento de caixa </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RFMOV"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/Movimentacao" class="nav-link "> Movimentações </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RFDES"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/Despesas" class="nav-link "> Despesas </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RFREC"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/Recebimentos" class="nav-link "> Receitas </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RFDESC"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/DescontoComanda" class="nav-link "> Descontos oferecidos </a>
+</li>
+}
+</ul>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SRCLI"))
+{
+<li class="nav-item  ">
+<a href="javascript:;" class="nav-link nav-toggle">
+<span class="title">Clientes</span>
+<span class="arrow"></span>
+</a>
+<ul class="sub-menu">
+@if (Cookies.DireitoUsuarioLogado.Contains("RCAGE"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/ClienteAgendamento" class="nav-link "> Agendas do cliente </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RCCOM"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/ClienteComanda" class="nav-link "> Comandas do cliente </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RCRAN"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/ClienteRanking" class="nav-link "> Melhores clientes </a>
+</li>
+}
+</ul>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SRPRO"))
+{
+<li class="nav-item  ">
+<a href="javascript:;" class="nav-link nav-toggle">
+<span class="title">Profissionais</span>
+<span class="arrow"></span>
+</a>
+<ul class="sub-menu">
+@if (Cookies.DireitoUsuarioLogado.Contains("RPCOM"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/ProfissionalComissao" class="nav-link "> Comissões dos profissionais </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RPAGE"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/ProfissionalAgenda" class="nav-link "> Agendas do profissional </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RPRAN"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/ProfissionaisRanking" class="nav-link "> Melhores profissionais </a>
+</li>
+}
+</ul>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SRPRS"))
+{
+<li class="nav-item  ">
+<a href="javascript:;" class="nav-link nav-toggle">
+<span class="title">Produtos & Serviços</span>
+<span class="arrow"></span>
+</a>
+<ul class="sub-menu">
+@if (Cookies.DireitoUsuarioLogado.Contains("RPRDRAN"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/ProdutoRanking" class="nav-link "> Melhores Produtos </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RPRDEST"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/ProdutoEstoque" class="nav-link "> Estoque de Produtos </a>
+</li>
+}
+@if (Cookies.DireitoUsuarioLogado.Contains("RSERRAN"))
+{
+<li class="nav-item ">
+<a href="/Relatorio/ServicoRanking" class="nav-link "> Melhores Serviços </a>
+</li>
+}
+</ul>
+</li>
+}
+</ul>
+</li>
+<li class="nav-item  " id="menuDashboards">
+<a href="/Home/" class="nav-link nav-toggle">
+<i class="fa fa-bar-chart-o"></i>
+<span class="title">Dashboards</span>
+<span class="arrow"></span>
+</a>
+<ul class="sub-menu">
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SOPEDASH"))
+{
+<li class="nav-item  ">
+<a href="/Dashboard/Operacional" class="nav-link ">
+<span class="title">Operacional</span>
+</a>
+</li>
+}
+@if (Cookies.IdUsuarioLogado.HasValue && Cookies.DireitoUsuarioLogado.Contains("SDASH"))
+{
+<li class="nav-item  ">
+<a href="/Dashboard/Gerencial" class="nav-link ">
+<span class="title">Gerencial</span>
+</a>
+</li>
+}
+</ul>
+</li>
+<li id="menuConfiguracoes">
+<a href="/Empresa/Perfil">
+<i class="icon-settings"></i>
+<span class="title">Configurações</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="page-content-wrapper">
+<script type="text/javascript">
+@Html.Raw(TempData["swal"])
+</script>
+
+@RenderBody()
+</div>
+</div>
+<div class="page-footer">
+<div class="page-footer-inner">
+&copy; <a href="http://Controledesalao.com.br" title="Controle de Salão">Controle de Salão!</a> 2016 &nbsp;&nbsp;&nbsp; <i class="fa fa-lock"></i> Você está em um ambiente seguro <i class="fa fa-lock"></i>
+</div>
+<div class="scroll-to-top">
+<i class="icon-arrow-up"></i>
+</div>
+</div>
+
+<!--[if lt IE 9]>
+<script src="~/assets/global/plugins/respond.min.js"></script>
+<script src="~/assets/global/plugins/excanvas.min.js"></script>
+<![endif]-->
+    
+<a class="helpme" onclick="window.open('https://www.mylivechat.com/chatnoscript.aspx?HCCID=11860453','name','width=600,height=400')" target="popup"> </a>
+
+</body>
+
+</html>

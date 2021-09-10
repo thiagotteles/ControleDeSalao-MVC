@@ -1,0 +1,32 @@
+﻿@model List<App.MVC.ViewModels.ProdutoViewModel>
+@{
+    Layout = "../Shared/_LayoutImpressao.cshtml";
+}
+
+<table style="width: 100%">
+    <tr align="center">
+        <td>
+            <h3>Estoque de Produtos</h3>
+        </td>
+    </tr>
+</table>
+
+<table class="table table-striped">
+    <tr>
+        <th class="text-left">Descrição</th>
+        @*<th class="text-left">Código</th>*@
+        <th class="text-left">Und</th>
+        @*<th class="text-center">Qtd Mínima</th>*@
+        <th class="text-center">Qtd Estoque</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td class="text-left">@Html.DisplayFor(modelitem => item.Descricao)</td>
+            @*<td class="text-left">@Html.DisplayFor(modelitem => item.Codigo)</td>*@
+            <td class="text-left">@Html.DisplayFor(modelitem => item.Unidade)</td>
+            @*<td class="text-center">@Html.DisplayFor(modelitem => item.QtdMinEstoque)</td>*@
+            <td class="text-center">@Html.DisplayFor(modelitem => item.QtdEstoque)</td>
+        </tr>
+    }
+</table>

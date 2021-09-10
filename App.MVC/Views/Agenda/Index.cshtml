@@ -1,0 +1,73 @@
+@using App.MVC.ViewModels
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (((List<ProfissionalViewModel>)Session["TodosProfissionais"]).Count <= 0)
+{
+    <script>
+        $(function () {
+            swal({ title: "Nenhum profissional :'(", text: "Você ainda não cadastrou nenhum profissional, cadastre ao menos 1 profissional!", type: "info", showCancelButton: false, confirmButtonColor: "#DD6B55", confirmButtonText: "Sim, cadastrar agora!", closeOnConfirm: false }, function () { window.location.replace("http://app.controledesalao.com.br/Profissional"); });
+        })
+    </script>
+}
+
+<link href="~/assets/global/plugins/weekcalendar/css/smoothness/jquery-ui-1.8.11.custom.css" rel="stylesheet" />
+<link href="~/assets/global/plugins/weekcalendar/jquery.weekcalendar.css" rel="stylesheet" />
+<link href="~/assets/global/plugins/weekcalendar/skins/gcalendar.css" rel="stylesheet" />
+
+@Scripts.Render("~/bundles/jquery-migrate")
+@Scripts.Render("~/bundles/jquery-ui")
+@Scripts.Render("~/bundles/weekcalendar")
+@Styles.Render("~/Content/nouislider")
+@Scripts.Render("~/bundles/nouislider")
+
+
+@Scripts.Render("~/bundles/Agenda-Index")
+<div class="page-content">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+
+            <div class="form-group form-md-line-input col-md-4">
+                <select class="form-control" id="profissional">
+                    @foreach (var profissional in (List<ProfissionalViewModel>)Session["TodosProfissionais"])
+                    {
+                        <option value="@profissional.Id">@profissional.Nome</option>
+                    }
+                </select>
+                <label for="profissional">Profissional</label>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="col-md-3">Zoom:</label>
+                <div class="col-md-9">
+                    <div id="zoom" class="noUi-primary margin-bottom-40"></div>
+                </div>
+            </div>
+            <div class="actions">
+                <a class="btn btn-icon-only btn-xs btn-default fullscreen" href="#"> </a>
+                <a class="" href="#">&nbsp;&nbsp;&nbsp; </a>
+
+            </div>
+        </div>
+
+        <div id="calendar"></div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Agendar Horário</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("_DetalheAgenda", new AgendaViewModel())
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+</script>

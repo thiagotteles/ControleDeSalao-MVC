@@ -1,0 +1,94 @@
+﻿@model dynamic
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+@Styles.Render("~/Content/bootstrap-material-datetimepicker")
+@Scripts.Render("~/bundles/bootstrap-material-datetimepicker")
+
+<div class="page-content">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <span class="caption-subject font-blue-sharp bold uppercase">Melhores Profissionais</span>
+                <span class="caption-helper">Relatório que mostra os melhores profissionais do salão</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                @using (Html.BeginForm("ProfissionaisRanking", "Relatorio", FormMethod.Post, new { target = "_blank" }))
+                {
+                    <div class="col-md-2 col-xs-4">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Data Inicial</label>
+                            @Html.TextBox("dataInicial", Convert.ToDateTime(Session["ranqpro_dtInicial"]).ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-xs-4">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Data Final</label>
+                            @Html.TextBox("dataFinal", Convert.ToDateTime(Session["ranqpro_dtFinal"]).ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-md-8 text-left">
+                        <br />
+                        <br />
+                        <input type="submit" value="Gerar Relatório" class="btn blue" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Scripts.Render("~/bundles/Relatorios")
+
+
+@*@Scripts.Render("~/bundles/jqueryUi")
+@Scripts.Render("~/bundles/datepicker")
+@Styles.Render("~/Content/datetime")
+<div id="breadcrumb">
+    <ul class="breadcrumb">
+        <li><i class="fa fa-home"></i><a href="/Home">Home</a></li>
+        <li class="active">Relatório</li>
+    </ul>
+</div>
+<div class="main-header clearfix">
+    <div class="page-title">
+        <h3 class="no-margin">Ranking de profissionais</h3>
+        <span>Relatório que mostra os melhores profissionais do salão</span>
+    </div>
+</div>
+<div class="padding-md">
+    <div class="row">
+        @using (Html.BeginForm("ProfissionaisRanking", "Relatorio", FormMethod.Post, new { target = "_blank" }))
+        {
+            <div class="col-xs-12 col-md-12">
+                @Html.Label("Período")
+            </div>
+            <div class="col-xs-2 col-md-2 text-right">
+                @Html.TextBox("dataInicial", Convert.ToDateTime(Session["ranqpro_dtInicial"]).ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+            </div>
+            <div class="col-xs-2 col-md-2 text-right">
+                @Html.TextBox("dataFinal", Convert.ToDateTime(Session["ranqpro_dtFinal"]).ToString("dd/MM/yyyy"), new { @class = "form-control datepicker" })
+            </div>
+            <div class="col-xs-8 col-md-8 text-left">
+                <input type="submit" value="Gerar Relatório" class="btn btn-info" />
+            </div>
+        }
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            format: "dd/mm/yyyy",
+            language: "pt-BR",
+            autoclose: true
+
+        });
+    });
+</script>*@

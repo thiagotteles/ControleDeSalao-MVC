@@ -1,0 +1,363 @@
+﻿@using App.MVC.ViewModels
+@model IEnumerable<FinanceiroViewModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var planos = from p in Model.Where(m => (m.Status != ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Excluida)).OrderBy(m => m.Tipo)
+                 group p by p.PlanoDeContaId into g
+                 select new
+                 {
+                     Id = g.Key,
+                 };
+}
+
+@Styles.Render("~/Content/datatables")
+@Scripts.Render("~/bundles/datatable")
+@Scripts.Render("~/bundles/mascaras")
+
+@Styles.Render("~/Content/typeahead")
+@Scripts.Render("~/bundles/typeahead")
+@Styles.Render("~/Content/bootstrap-switch")
+@Scripts.Render("~/bundles/bootstrap-switch")
+
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+@Styles.Render("~/Content/bootstrap-material-datetimepicker")
+@Scripts.Render("~/bundles/bootstrap-material-datetimepicker")
+<div class="page-content">
+    <div class="portlet light bordered">
+        <div class="portlet-title tabbable-line">
+            <div class="row">
+                @using (Html.BeginForm())
+                {
+                    <div class="col-xs-4 col-md-2">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <label for="SData" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Data Inicial</label>
+                            @Html.TextBox("dataInicial", Convert.ToDateTime(Session["fin_dtInicial"]).ToString("dd/MM/yyyy"), new { @class = "form-control floating-label" })
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-md-2">
+                        <div class="form-group form-md-line-input form-md-floating-label">
+                            <label for="SData" style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Data Final</label>
+                            @Html.TextBox("dataFinal", Convert.ToDateTime(Session["fin_dtFinal"]).ToString("dd/MM/yyyy"), new { @class = "form-control floating-label" })
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-md-4 text-left">
+                        <br />
+                        <br />
+                        <input type="submit" value="Filtrar" class="btn btn-info" />
+                    </div>
+                }
+            </div>
+            <ul class="nav nav-tabs">
+                <li class="active ">
+                    <a href="#Fluxo" id="tbFlux" data-toggle="tab" class=""> <b class="btn">Fluxo de caixa</b>  </a>
+                </li>
+                <li>
+                    <a href="#Receber" id="tbReceb" data-toggle="tab" class=""> <b class="btn green-soft">Receitas</b>  </a>
+                </li>
+                <li>
+                    <a href="#Pagar" id="tbPag" data-toggle="tab" class=""> <b class="btn red-soft">Despesas</b>  </a>
+                </li>
+            </ul>
+        </div>
+        <div class="portlet-body">
+            <div class="tab-content">
+                <div class="tab-pane active " id="Fluxo">
+                    <div class="">
+                        <br />
+                        <br />
+                        <br />
+                        <table class="table table-striped table-bordered table-hover table-condensed" id="tableFluxo">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th class="text-left">Vencimento </th>
+                                    <th class="text-right">Previsto </th>
+                                    <th class="text-right">Pago </th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                @foreach (var item in planos)
+                                {
+                                    <tr>
+                                        <td>
+                                            @if (@Model.FirstOrDefault(m => m.PlanoDeContaId == item.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito)
+                                            {
+                                                <strong style="color: #65cea7">@Model.FirstOrDefault(m => m.PlanoDeContaId == item.Id).PlanoDeConta.Nome</strong>
+                                            }
+                                            else
+                                            {
+                                                <strong style="color: #fc8675; background: #f9f9f9">@Model.FirstOrDefault(m => m.PlanoDeContaId == item.Id).PlanoDeConta.Nome</strong>
+                                            }
+
+                                        </td>
+                                        <td></td>
+                                        <td class="text-right">
+                                            <strong class="fadeInUp">
+                                                @{if (@Model.FirstOrDefault(m => m.PlanoDeContaId == item.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito)
+                                                {
+                                                    <label>-</label>
+                                                }
+                                                }@Model.Where(m => m.PlanoDeContaId == item.Id).Sum(m => m.Valor).Value.ToString("C")
+                                            </strong>
+                                        </td>
+                                        <td class="text-right">
+                                            <strong class="fadeInUp">
+                                                @{if (@Model.FirstOrDefault(m => m.PlanoDeContaId == item.Id).Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito)
+                                                {
+                                                    <label>-</label>
+                                                }
+                                                }@Model.Where(m => m.PlanoDeContaId == item.Id).Sum(m => m.ValorPago).Value.ToString("C")
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    foreach (var lcto in Model.Where(m => m.PlanoDeContaId == item.Id))
+                                    {
+                                        <tr>
+                                            <td>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @lcto.Descricao - <i>@lcto.NomeQuem </i>
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(m => lcto.SDtVcto)
+                                            </td>
+                                            <td class="text-right">
+                                                @{
+                                        if (lcto.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito)
+                                        {
+                                            <label>-</label>
+                                        }
+                                                }@Html.DisplayFor(m => lcto.Valor)
+                                            </td>
+                                            <td class="text-right">
+                                                @{
+                                        if (lcto.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito)
+                                        {
+                                            <label>-</label>
+                                        }
+                                                }@Html.DisplayFor(m => lcto.ValorPago)
+                                            </td>
+                                        </tr>
+                                    }
+
+                                }
+                            </tbody>
+                            <tr style="border-top: solid 2pt">
+                                <td></td>
+                                <td class="text-right">
+                                    <h5 style="color: black; font-weight: bold">Total</h5>
+                                </td>
+                                <td class="text-right">
+                                    <h5 style="color: black; font-weight: bold" class="fadeInDown">@ViewBag.SaldoPrevisto</h5>
+                                </td>
+                                <td class="text-right">
+                                    <h5 style="color: black; font-weight: bold" class="fadeInDown">@ViewBag.Saldo</h5>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane  " id="Receber">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3 text-left">
+                            <br />
+                            <a class="btn green-soft recebimento" data-toggle="modal" href="#modalRecebimento">
+                                <i class="fa fa-plus"></i>
+                                Incluir uma nova receita
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-md-9 text-left">
+                            <div class="col-xs-4 col-md-2 text-left">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Aberto</label>
+                                    <br />
+                                    <h4 class="font-green-soft bold">@Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Aberto)).Sum(s => s.Valor.Value).ToString("0.00")</h4>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-md-2 text-left">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Recebido</label>
+                                    <br />
+                                    <h4 class="font-green-soft bold">@Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito && m.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Pago)).Sum(s => s.ValorPago.Value).ToString("0.00")</h4>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-md-2 text-left">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Total</label>
+                                    <br />
+                                    <h4 class="font-green-soft bold">@Model.Where(m => m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito).Sum(s => s.ValorPago.HasValue ? s.ValorPago.Value : s.Valor.Value).ToString("0.00")</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <table class="table table-striped table-bordered table-hover table-condensed" id="tableReceita">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">Descrição </th>
+                                    <th class="text-left">Forma </th>
+                                    <th class="text-center">Vencimento </th>
+                                    <th class="text-right">Vlr. </th>
+                                    <th class="text-right">Vrl. Recebido </th>
+                                    <th class="text-center">Status </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Where(m => m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Crédito))
+                                {
+                                    <tr>
+                                        <td class="text-left">@item.Descricao</td>
+                                        <td class="text-left">@item.FormaDePagamento.ToString()</td>
+                                        <td class="text-center">@item.SDtVcto</td>
+                                        <td class="text-right text-nowrap">@item.Valor.Value.ToString("C")</td>
+                                        <td class="text-right text-nowrap">@(item.ValorPago.HasValue ? item.ValorPago.Value.ToString("C") : string.Empty)</td>
+                                        <td class="text-center">
+                                            @if (item.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Aberto)
+                                            {
+                                                <div class="font font-yellow-lemon bold">@item.Status</div>
+                                            }
+                                            else
+                                            {
+                                                <div class="font font-green-soft bold" data-toggle="tooltip" data-placement="bottom" title="@string.Format("Pago no dia {0} em {1} ", item.SDtVcto, item.FormaDePagamento)">@Html.DisplayFor(modelitem => item.Status)</div>
+                                            }
+                                        </td>
+                                        <td class="text-right text-nowrap">
+                                            @if (item.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Aberto)
+                                            {
+                                                <a class="btn btn-xs blue tooltips pagarReceber" data-id="@item.Id" data-placement="top" data-original-title="Receber o valor">
+                                                    <i class="fa fa-dollar"></i> Receber
+                                                </a>
+                                            }
+                                            <a class="btn btn-xs red-soft tooltips excluir" data-placement="top" data-original-title="Excluir" data-item-id="@item.Id">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane   " id="Pagar">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-3 text-left">
+                            <br />
+                            <a class="btn red-soft despesa" data-toggle="modal" href="#modalDespesa">
+                                <i class="fa fa-plus"></i>
+                                Incluir uma nova despesa
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-md-9 text-left">
+                            <div class="col-xs-4 col-md-2 text-left">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Aberto</label>
+                                    <br />
+                                    <h4 class="font-red-soft bold">@Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Aberto)).Sum(s => s.Valor.Value).ToString("0.00")</h4>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-md-2 text-left">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Pago</label>
+                                    <br />
+                                    <h4 class="font-red-soft bold">@Model.Where(m => (m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito && m.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Pago)).Sum(s => s.ValorPago.Value).ToString("0.00")</h4>
+                                </div>
+                            </div>
+                            <div class="col-xs-4 col-md-2 text-left">
+                                <div class="form-group form-md-line-input form-md-floating-label">
+                                    <label style="font: 'Open Sans', sans-serif 14px; color: #9c9999">Total</label>
+                                    <br />
+                                    <h4 class="font-red-soft bold">@Model.Where(m => m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito).Sum(s => s.ValorPago.HasValue ? s.ValorPago.Value : s.Valor.Value).ToString("0.00")</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <table class="table table-striped table-bordered table-hover table-condensed" id="tableDespesa">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">Descrição </th>
+                                    <th class="text-left">Forma </th>
+                                    <th class="text-center">Vencimento </th>
+                                    <th class="text-right">Vlr. </th>
+                                    <th class="text-right">Vrl. Pago </th>
+                                    <th class="text-center">Status </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Where(m => m.Tipo == ControleDeSalao.Domain.Enums.Enum.TipoCreditoDebito.Débito))
+                                {
+                                    <tr>
+                                        <td class="text-left">@item.Descricao</td>
+                                        <td class="text-left">@item.FormaDePagamento.ToString()</td>
+                                        <td class="text-center">@item.SDtVcto</td>
+                                        <td class="text-right text-nowrap">@item.Valor.Value.ToString("C")</td>
+                                        <td class="text-right text-nowrap">@(item.ValorPago.HasValue ? item.ValorPago.Value.ToString("C") : string.Empty)</td>
+                                        <td class="text-center">
+                                            @if (item.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Aberto)
+                                            {
+                                                <div class="font font-yellow-lemon bold">@item.Status</div>
+                                            }
+                                            else
+                                            {
+                                                <div class="font font-red-soft bold" data-toggle="tooltip" data-placement="bottom" title="@string.Format("Pago no dia {0} em {1} ", item.SDtVcto, item.FormaDePagamento)">@Html.DisplayFor(modelitem => item.Status)</div>
+                                            }
+                                        </td>
+                                        <td class="text-right text-nowrap">
+                                            @if (item.Status == ControleDeSalao.Domain.Enums.Enum.StatusFinanceiro.Aberto)
+                                            {
+                                                <a class="btn btn-xs blue tooltips pagarReceber" data-id="@item.Id" data-placement="top" data-original-title="Pagar o valor">
+                                                    <i class="fa fa-dollar"></i> Pagar
+                                                </a>
+                                            }
+                                            <a class="btn btn-xs red-soft tooltips excluir" data-placement="top" data-original-title="Excluir" data-item-id="@item.Id">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/Financeiro-Index")
+
+<div class="modal fade" id="modal">
+</div>
+
+<div class="modal fade" id="modalRecebimento" tabindex="-1" role="dialog" aria-labelledby="modalRecebimentoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalRecebimentoLabel">Incluir Receita</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("Recebimento", new FinanceiroViewModel())
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDespesa" tabindex="-1" role="dialog" aria-labelledby="modalDespesaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalDespesaLabel">Incluir Despesa</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Partial("Despesa", new FinanceiroViewModel())
+            </div>
+
+        </div>
+    </div>
+</div>

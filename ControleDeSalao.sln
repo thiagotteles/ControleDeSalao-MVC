@@ -1,0 +1,95 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Services", "1 - Services", "{B0CC48A2-7DE9-4730-B85D-5AA5605434A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{BC2DC066-C493-4692-B7BC-1222B5297F6B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{29FE308F-7C2D-45C4-AD71-832FFF618094}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{1C28C9BE-BF00-46B1-939A-0268CA7BCD2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1 - Data", "4.1 - Data", "{D14B9BBF-5D38-4E4F-AAB3-9165E0F31E76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeSalao.Domain", "ControleDeSalao.Domain\ControleDeSalao.Domain.csproj", "{7C65E490-814D-4206-B135-8CDD2976A8CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeSalao.Infra.Data", "ControleDeSalao.Infra.Data\ControleDeSalao.Infra.Data.csproj", "{93C2B9DA-1462-4746-96B5-FCA7156BDC52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeSalao.Application", "ControleDeSalao.Application\ControleDeSalao.Application.csproj", "{78D27E98-E729-44DD-8D58-3B852580305D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2 - CrossCutting", "4.2 - CrossCutting", "{2F75D572-3ED7-427D-8E14-748B91388DA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ControleDeSalao.Infra.Cross", "ControleDeSalao.Infra.Cross\ControleDeSalao.Infra.Cross.csproj", "{F9BAA3FC-93BC-4537-B1E7-311836504DC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - App", "0 - App", "{289E714F-AED6-47F1-8C94-51BBD5524272}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.MVC", "App.MVC\App.MVC.csproj", "{5A25F244-0D07-4CFF-A035-386765A7EC47}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tagworks.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ControleDeSalao.Domain\\ControleDeSalao.Domain.csproj
+		SccProjectTopLevelParentUniqueName1 = ControleDeSalao.sln
+		SccProjectName1 = ControleDeSalao.Domain
+		SccLocalPath1 = ControleDeSalao.Domain
+		SccProjectUniqueName2 = ControleDeSalao.Infra.Data\\ControleDeSalao.Infra.Data.csproj
+		SccProjectTopLevelParentUniqueName2 = ControleDeSalao.sln
+		SccProjectName2 = ControleDeSalao.Infra.Data
+		SccLocalPath2 = ControleDeSalao.Infra.Data
+		SccProjectUniqueName3 = ControleDeSalao.Application\\ControleDeSalao.Application.csproj
+		SccProjectTopLevelParentUniqueName3 = ControleDeSalao.sln
+		SccProjectName3 = ControleDeSalao.Application
+		SccLocalPath3 = ControleDeSalao.Application
+		SccProjectUniqueName4 = ControleDeSalao.Infra.Cross\\ControleDeSalao.Infra.Cross.csproj
+		SccProjectTopLevelParentUniqueName4 = ControleDeSalao.sln
+		SccProjectName4 = ControleDeSalao.Infra.Cross
+		SccLocalPath4 = ControleDeSalao.Infra.Cross
+		SccProjectUniqueName5 = App.MVC\\App.MVC.csproj
+		SccProjectTopLevelParentUniqueName5 = ControleDeSalao.sln
+		SccProjectName5 = App.MVC
+		SccLocalPath5 = App.MVC
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C65E490-814D-4206-B135-8CDD2976A8CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C65E490-814D-4206-B135-8CDD2976A8CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C65E490-814D-4206-B135-8CDD2976A8CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C65E490-814D-4206-B135-8CDD2976A8CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93C2B9DA-1462-4746-96B5-FCA7156BDC52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93C2B9DA-1462-4746-96B5-FCA7156BDC52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93C2B9DA-1462-4746-96B5-FCA7156BDC52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93C2B9DA-1462-4746-96B5-FCA7156BDC52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78D27E98-E729-44DD-8D58-3B852580305D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78D27E98-E729-44DD-8D58-3B852580305D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78D27E98-E729-44DD-8D58-3B852580305D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78D27E98-E729-44DD-8D58-3B852580305D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9BAA3FC-93BC-4537-B1E7-311836504DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9BAA3FC-93BC-4537-B1E7-311836504DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9BAA3FC-93BC-4537-B1E7-311836504DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9BAA3FC-93BC-4537-B1E7-311836504DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A25F244-0D07-4CFF-A035-386765A7EC47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A25F244-0D07-4CFF-A035-386765A7EC47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A25F244-0D07-4CFF-A035-386765A7EC47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A25F244-0D07-4CFF-A035-386765A7EC47}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D14B9BBF-5D38-4E4F-AAB3-9165E0F31E76} = {1C28C9BE-BF00-46B1-939A-0268CA7BCD2A}
+		{7C65E490-814D-4206-B135-8CDD2976A8CE} = {29FE308F-7C2D-45C4-AD71-832FFF618094}
+		{93C2B9DA-1462-4746-96B5-FCA7156BDC52} = {D14B9BBF-5D38-4E4F-AAB3-9165E0F31E76}
+		{78D27E98-E729-44DD-8D58-3B852580305D} = {BC2DC066-C493-4692-B7BC-1222B5297F6B}
+		{2F75D572-3ED7-427D-8E14-748B91388DA3} = {1C28C9BE-BF00-46B1-939A-0268CA7BCD2A}
+		{F9BAA3FC-93BC-4537-B1E7-311836504DC4} = {2F75D572-3ED7-427D-8E14-748B91388DA3}
+		{5A25F244-0D07-4CFF-A035-386765A7EC47} = {289E714F-AED6-47F1-8C94-51BBD5524272}
+	EndGlobalSection
+EndGlobal

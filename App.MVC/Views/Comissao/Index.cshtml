@@ -1,0 +1,65 @@
+﻿
+@using App.MVC.ViewModels
+@model IEnumerable<App.MVC.ViewModels.ProfissionalViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/profile")
+<div class="page-content">
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-percent font-blue-hoki"></i>
+                <span class="caption-subject font-blue-sharp bold uppercase">Comissões</span>
+                <span class="caption-helper">Comissões abertas por profissional.</span>
+            </div>
+            <div class="actions">
+                <a class="btn btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="portlet light bordered ">
+                            <!-- STAT -->
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-6 col-xs-6 text-left">
+                                        <span class="profile-stat-title font-grey-cascade sbold">@(item.Nome)</span>
+                                        <br />
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 col-xs-6 text-center">
+                                        <span class="uppercase profile-stat-title">@item.Comissoes.Sum(m => m.Valor).Value.ToString("C") </span>
+                                        <br />
+
+                                        <a class="btn btn-xs blue tooltips editar" data-id="@item.Id" data-placement="top" data-original-title="Detalhar as comissões">
+                                            <i class="fa fa-search"></i> Detalhar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal bs-modal-lg fade" id="modalEdit">
+</div>
+
+<script>
+    $(".editar").click(function () {
+        var id = $(this).attr("data-id");
+        $("#modalEdit").load("Detalhe?id=" + id, function () {
+            $("#modalEdit").modal('show');
+        });
+    });
+</script>

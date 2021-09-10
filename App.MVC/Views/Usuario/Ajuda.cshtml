@@ -1,0 +1,265 @@
+﻿@model UsuarioViewModel
+@using App.MVC.ViewModels
+@using ControleDeSalao.Infra.Cross.Security;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/pages/css/profile.min.css" rel="stylesheet" />
+<div class="page-content">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="profile-sidebar">
+                <div class="portlet light profile-sidebar-portlet bordered">
+                    <div class="profile-userpic">
+                        <img src="@Cookies.UrlAvatarUsuarioLogado" class="img-responsive" alt="">
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name"> @Cookies.LoginUsuarioLogado </div>
+                        <div class="profile-usertitle-job"> @Cookies.CargoUsuarioLogado </div>
+                    </div>
+                    <div class="profile-userbuttons">
+                        <a class="btn  btn-circle green btn-sm" data-toggle="modal" href="#modalAvatar">
+                            Escoher Avatar
+                        </a>
+                    </div>
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li>
+                                <a href="/Usuario/Perfil">
+                                    <i class="icon-user"></i> Meu Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Empresa/Perfil">
+                                    <i class="icon-home"></i> Meu Salão
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="/Usuario/Ajuda">
+                                    <i class="icon-info"></i> Ajuda
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="portlet light bordered">
+                    <div class="row list-separated profile-stat">
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <div class="uppercase profile-stat-title"> @(((IEnumerable<ControleDeSalao.Domain.Entities.Cliente>)ViewBag.Clientes).Count()) </div>
+                            <div class="uppercase profile-stat-text"> Clientes </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <div class="uppercase profile-stat-title"> @(((IEnumerable<ControleDeSalao.Domain.Entities.Profissional>)ViewBag.Profissionais).Count()) </div>
+                            <div class="uppercase profile-stat-text"> PROFISSIONAIS </div>
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-6">
+                            <div class="uppercase profile-stat-title"> @(((IEnumerable<ControleDeSalao.Domain.Entities.Servico>)ViewBag.Servicos).Count()) </div>
+                            <div class="uppercase profile-stat-text"> Serviços </div>
+                        </div>
+                    </div>
+                    <div>
+                        <ul class="feeds">
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="desc">
+                                                Status do plano
+                                                @if (Model.Empresa.PlanoId.HasValue)
+                                                {
+                                                    <span class="label label-sm label-success ">
+                                                        Assinante
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-sm label-warning">
+                                                        Em Teste
+                                                    </span>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="desc">
+                                                Valido até
+                                                @if (Model.Empresa.PlanoId.HasValue)
+                                                {
+                                                    <span class="label label-sm label-success ">
+                                                        @(Cookies.DataBloqueio.ToString("d"))
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-sm label-warning">
+                                                        @(Cookies.DataBloqueio.ToString("d"))
+                                                    </span>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="col1">
+                                    <div class="cont">
+                                        <div class="cont-col1">
+                                            <div class="desc">
+                                                Valor do plano
+                                                @if (Model.Empresa.PlanoId.HasValue)
+                                                {
+
+                                                    <span class="label label-sm label-success">
+                                                        @( ((IEnumerable<MensalidadeViewModel>)Session["TodasMensalidades"]).OrderByDescending(m => m.SDataVencimento).ToList()[0].Valor)
+                                                    </span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-sm label-success ">
+                                                        GRÁTIS
+                                                    </span>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet light bordered">
+                            <div class="portlet-title tabbable-line">
+                                <div class="caption caption-md">
+                                    <i class="icon-globe theme-font hide"></i>
+                                    <span class="caption-subject font-blue-madison bold uppercase">Ajuda</span>
+                                </div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#tab_1_1" id="tb_1_1" data-toggle="tab">Perguntas frequentes</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab_1_1">
+                                        <div id="accordion1" class="panel-group">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_1"> 1. Como funciona o período grátis ? </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="accordion1_1" class="panel-collapse collapse in">
+                                                    <div class="panel-body">
+                                                        Após se cadastrar no <strong>Controle de Salão</strong> para utilizar grátis durante 15 dias, você terá acesso à todas as funcionalidades e vantagens disponíveis. Você terá toda ajuda necessária através do email suporte@controledesalao.com.br, tirando dúvida e entedendo como como o sistema pode te ajudar fazendo parte do seu salão de forma ajustada à sua forma de trabalhar. Queremos garantir o início do seu crescimento e que você tenha toda ajuda necessária para isso.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_2"> 2. O que acontecerá quando acabar meu período grátis ? </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="accordion1_2" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        Antes que termine o seu período de teste enviaremos um email com as informações dos planos disponíveis para que você possa escolher o que melhor lhe atende. A conta utilizada se tornará sua conta permanente com todos os dados armazenados até a data presente.
+                                                        Caso não deseje continuar, sua conta será desativada e seus dados permanecerão no sistema por mais 15 dias, caso mude de ideia e deseje fazer parte da equipe mais tarde.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_3"> 3. Qual a segurança dos meus dados ? </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="accordion1_3" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        Para nós a questão da segurança é algo muitíssimo importante, por isso usamos a melhor tecnologia de buckups e os melhores servidores para que seus dados estejam 100% seguros e  para que segurança não seja um motivo de preocupação para você.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_4"> 4. Como será feita a cobrança ? Eu posso trocar de plano ? </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="accordion1_4" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        Será gerado um boleto com o valor do plano escolhido, após a confirmação de pagamento, o seu plano estará ativo pelos próximos 30 dias. Esse boleto poderá ser encontrado no próprio sistema para sua maior comodidade, basta abrir e clicar em imprimir. Caso deseje mais informações entre em contato com a nossa equipe. O Controle de Salão foi desenvolvido para te auxiliar no seu crescimento, te mostrar pontos importantes e fundamentais que te levem ao sucesso, nosso objetivo é te fazer ganhar mais, seja clientes, profissionais para administrar e claro, dinheiro. Pensando no seu crescimento disponibilizamos a troca imediada de qualquer plano, basta adicionar ou remover os profissionais que serão geridos até se adequar  à suas necessidades.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_5"> 5. Existe contratos, fidelidade ou taxas de cancelamento ? </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="accordion1_5" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        A resposta é NÃO. Nossa politica de pagamento é você pagar apenas pelo que usa, será gerado um boleto a cada 30 dias, após o pagamento sua assinatura será renovada. Caso decida cancelar, basta parar de pagar, não haverá futura cobranças ou taxa. Não há fidelidade ou surpresas nos valores.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_6"> 6. O Sistema envia SMS? </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="accordion1_6" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        Sim nosso sistema te da a opção de enviar SMS GRATUITAMENTE para lembrar o seu cliente da agenda dele, isso trás mais segurança de que esse cliente não irá comparecer por esquecimento e o seu cliente se sentirá agradecido pelo lembrete.
+                                                        E que tal mandar uma mensagem de aniversário para o seu cliente? nosso sistema também te da a opção de enviar um SMS para o seu cliente no dia do aniversário dele, e com isso você irá cativar cada vez mais este cliente.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="accordion-toggle accordion-toggle-styled" data-toggle="collapse" data-parent="#accordion1" href="#accordion1_7"> 7. Porque um sistema na nuvem é melhor? </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="accordion1_7" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        O Sistema na nuvem por ser totalmente online e não precisar de instalação no computador você não terá o gasto de instalação.
+                                                        Imagine que você está trabalhando tenha um curto no seu computador, com um sistema na nuvem se o computador parar de funcionar os seus dados estarão salvos, se não for na nuvem você perdeu tudo o que tinha registrado no sistema.
+                                                        Você também pode tirar férias, imagine você em uma praia no Caribe e queira saber o que está acontecendo no seu salão naquele exato momento, você pode acessar o sistema e ver o fechamento de caixa, o fechamento diário ver até quem está sendo atendido naquele exato momento. O Sistema na nuvem é um sistema totalmente online que não precisa de instalação em um computador e está acessível em qualquer lugar do mundo, um exemplo de um sistema na nuvem é o Facebook, você pode acessa-lo de qualquer aparelho e em qualquer lugar que tenha internet.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Scripts.Render("~/bundles/sparkline")
+@Scripts.Render("~/bundles/profile")
+
+<div class="modal fade" id="modalAvatar" tabindex="-1" role="dialog" aria-labelledby="modalAvatarLabel" aria-hidden="true">
+    @Html.Partial("_Avatar")
+</div>
